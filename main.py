@@ -300,7 +300,8 @@ class CreatePropertyHandler(webapp2.RequestHandler):
  			# myState = self.request.get('state')
  			# myCountry = self.request.get('country')
 
- 			myNewProperty = Properties(latitude = myLatitude, longitude = myLongitude, rooms = myRooms, bathrooms = myBathrooms, propertyType = myPropertyType, yearBuilt = myYearBuilt, squareMeters = mySquareMeters, state = myState, country = myCountry)
+ 			# myNewProperty = Properties(latitude = myLatitude, longitude = myLongitude, rooms = myRooms, bathrooms = myBathrooms, propertyType = myPropertyType, yearBuilt = myYearBuilt, squareMeters = mySquareMeters, state = myState, country = myCountry)
+ 			myNewProperty = Properties(latitude = myLatitude, longitude = myLongitude, rooms = myRooms, bathrooms = myBathrooms, propertyType = myPropertyType, yearBuilt = myYearBuilt, squareMeters = mySquareMeters)
  			myNewPropertyKey = myNewProperty.put()
 
  			c.message = "inserted"
@@ -330,8 +331,8 @@ class ReadAllPropertiesHandler(webapp2.RequestHandler):
  				c.propertyType = i.propertyType
  				c.yearBuilt = i.yearBuilt
  				c.squareMeters = i.squareMeters
- 				c.state = i.state
- 				c.country = i.country
+ 				# c.state = i.state
+ 				# c.country = i.country
  				myList.append(c)
  		except:
  			c = ModelClass()
@@ -360,8 +361,8 @@ class ReadOnePropertyHandler(webapp2.RequestHandler):
  				c.propertyType = myProperty.propertyType
  				c.yearBuilt = myProperty.yearBuilt
  				c.squareMeters = myProperty.squareMeters
- 				c.state = myProperty.state
- 				c.country = myProperty.country
+ 				# c.state = myProperty.state
+ 				# c.country = myProperty.country
  			else:
  				c.message = "error: not found"
  		except:
@@ -400,8 +401,8 @@ class UpdatePropertyHandler(webapp2.RequestHandler):
  				myProperty.propertyType = myPropertyType
  				myProperty.yearBuilt = myYearBuilt
  				myProperty.squareMeters = mySquareMeters
- 				myProperty.state = myState
- 				myProperty.country = myCountry
+ 				# myProperty.state = myState
+ 				# myProperty.country = myCountry
  				myProperty.put()
  				c.message = "updated"
  			else:
