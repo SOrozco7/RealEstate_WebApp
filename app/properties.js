@@ -22,15 +22,8 @@ function insertProperty()
     var val_propertyType = $('#propertyType').val();
     var val_yearBuilt = $('#yearBuilt').val();
     var val_squareMeters = $('#squareMeters').val();
-
-    // geocodeLatLng(val_latitude + "," + val_longitude);
-    // var stateCountry = sessionStorage['stateCountry'];
-    // var stateCountryStr = stateCountry.split(',', 2);
-    // var val_state = stateCountryStr[0];
-    // var val_country = stateCountryStr[1];
-
-    // alert("val_state = " + val_state);
-    // alert("val_country = " + val_country);
+    var val_state = null;
+    var val_country = null;
 
     var myProperty = new Property();
     myProperty.latitude = val_latitude;
@@ -40,8 +33,8 @@ function insertProperty()
     myProperty.propertyType = val_propertyType;
     myProperty.yearBuilt = val_yearBuilt;
     myProperty.squareMeters = val_squareMeters;
-    // myProperty.state = val_state;
-    // myProperty.country = val_country;
+    myProperty.state = val_state;
+    myProperty.country = val_country;
 
     var form_data = new FormData();
     form_data.append("latitude",  myProperty.latitude);
@@ -51,8 +44,8 @@ function insertProperty()
     form_data.append("propertyType", myProperty.propertyType);
     form_data.append("yearBuilt", myProperty.yearBuilt);
     form_data.append("squareMeters", myProperty.squareMeters);
-    // form_data.append("state", myProperty.state);
-    // form_data.append("country", myProperty.country);
+    form_data.append("state", myProperty.state);
+    form_data.append("country", myProperty.country);
 
     jQuery.support.cors = true; //CORS -> Cross-Origin Resource Sharing 
 
@@ -67,7 +60,7 @@ function insertProperty()
       crossDomain: true,
       success: function(response){
 
-        alert("key generada " + response);
+        // alert("key generada " + response);
         $('#latitude').val(String.empty);
         $('#longitude').val(String.empty);
         $('#rooms').val(String.empty);
@@ -75,12 +68,10 @@ function insertProperty()
         $('#propertyType').val(String.empty);
         $('#yearBuilt').val(String.empty);
         $('#squareMeters').val(String.empty);
-        // $('#state').val(String.empty);
-        // $('#country').val(String.empty);
       },
       error: function(error){
 
-        alert("!!!!" + error);
+        alert(error);
       }
     });
   }
@@ -88,10 +79,13 @@ function insertProperty()
   {
     alert(error);
   }
+
+  getAllProperties();
 }
 
 function getAllProperties()
 {
+  // alert("Getting all!");
   jQuery.support.cors = true;
 
   try
@@ -116,8 +110,8 @@ function getAllProperties()
           "    <th> </th> " +
           // "    <th> entityKey </th> " +
           "    <th>  </th> " +
-          // "    <th> Latitude </th> " +
-          // "    <th> Longitude </th> " +
+          "    <th> Latitude </th> " +
+          "    <th> Longitude </th> " +
           "    <th> Rooms </th> " + 
           "    <th> Bathrooms </th> " + 
           "    <th> Type </th> " + 
@@ -140,8 +134,8 @@ function getAllProperties()
             "<i class='fa fa fa-ban'></i> Show in Map </button> " + 
             "</td>" +
             // "<td > " + property.id + " </td> " + 
-            // "<td > " + property.latitude + "</td> " +
-            // "<td > " + property.longitude + "</td> " +
+            "<td > " + property.latitude + "</td> " +
+            "<td > " + property.longitude + "</td> " +
             "<td > " + property.rooms + "</td> " + 
             "<td > " + property.bathrooms + "</td> " + 
             "<td > " + property.propertyType + "</td> " + 
@@ -192,8 +186,8 @@ function getOneProperty(propertyKey)
         $('#propertyType').val(response.propertyType);
         $('#yearBuilt').val(response.yearBuilt);
         $('#squareMeters').val(response.squareMeters);
-        $('#state').val(response.state);
-        $('#country').val(response.country);
+        // $('#state').val(response.state);
+        // $('#country').val(response.country);
         sessionStorage.setItem('keyUpdate', response.key);
       }
     });
@@ -218,18 +212,8 @@ function updateProperty()
     var val_propertyType = $('#propertyType').val();
     var val_yearBuilt = $('#yearBuilt').val();
     var val_squareMeters = $('#squareMeters').val();
-
-    // var propertyCoords = val_latitude + "," + val_longitude;
-    // alert(propertyCoords);
-    // geocodeLatLng(propertyCoords);
-    // var stateCountry = sessionStorage['stateCountry'];
-    // alert("sessionStorage[\'stateCountry\'] = " + sessionStorage['stateCountry']);
-    // var stateCountryStr = stateCountry.split(',', 2);
-    // var val_state = stateCountryStr[0];
-    // var val_country = stateCountryStr[1];
-
-    // alert("val_state = " + val_state);
-    // alert("val_country = " + val_country);
+    var val_state = null;
+    var val_country = null;
 
     var myProperty = new Property();
     myProperty.latitude = val_latitude;
@@ -239,10 +223,11 @@ function updateProperty()
     myProperty.propertyType = val_propertyType;
     myProperty.yearBuilt = val_yearBuilt;
     myProperty.squareMeters = val_squareMeters;
-    // myProperty.state = val_state;
-    // myProperty.country = val_country;
+    myProperty.state = val_state;
+    myProperty.country = val_country;
 
     var form_data = new FormData();
+    form_data.append("key", myKeyUpdate);
     form_data.append("latitude",  myProperty.latitude);
     form_data.append("longitude", myProperty.longitude);
     form_data.append("rooms", myProperty.rooms);
@@ -250,8 +235,8 @@ function updateProperty()
     form_data.append("propertyType", myProperty.propertyType);
     form_data.append("yearBuilt", myProperty.yearBuilt);
     form_data.append("squareMeters", myProperty.squareMeters);
-    // form_data.append("state", myProperty.state);
-    // form_data.append("country", myProperty.country);
+    form_data.append("state", myProperty.state);
+    form_data.append("country", myProperty.country);
 
     jQuery.support.cors = true;
 
@@ -275,8 +260,8 @@ function updateProperty()
         $('#propertyType').val(String.empty);
         $('#yearBuilt').val(String.empty);
         $('#squareMeters').val(String.empty);
-        // $('#state').val(String.empty);
-        // $('#country').val(String.empty);
+
+        getAllProperties();
       },
       error: function(error){
 
@@ -288,6 +273,8 @@ function updateProperty()
   {
     alert(error);
   }
+
+  getAllProperties();
 }
 
 function deleteProperty(propertyKey){
@@ -323,6 +310,8 @@ function deleteProperty(propertyKey){
   {
     alert(error);
   }
+
+  getAllProperties();
 }
 
 function initMap(propertyCoords) {
@@ -386,6 +375,26 @@ function geocodeLatLng(propertyCoords) {
 
         var ans = state + "," + country;
         sessionStorage.setItem('stateCountry', ans);
+
+        $.ajax({
+
+          url: "/setPropertyLocation",
+          dataType: "text",
+          cache: false,
+          contentType: false,
+          processData: false,
+          type: "post",
+          crossDomain: true,
+          success: function(response){
+
+            var ans = state + "," + country;
+            sessionStorage.setItem('stateCountry', ans);
+          },
+          error: function(error){
+
+            alert(error);
+          }
+        );
       },
       error: function(error){
 
@@ -397,5 +406,7 @@ function geocodeLatLng(propertyCoords) {
   {
     alert(error);
   }
+
+  getAllProperties();
 }
 

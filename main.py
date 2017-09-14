@@ -297,11 +297,10 @@ class CreatePropertyHandler(webapp2.RequestHandler):
  			myPropertyType = self.request.get('propertyType')
  			myYearBuilt = self.request.get('yearBuilt')
  			mySquareMeters = self.request.get('squareMeters')
- 			# myState = self.request.get('state')
- 			# myCountry = self.request.get('country')
+ 			myState = self.request.get('state')
+ 			myCountry = self.request.get('country')
 
- 			# myNewProperty = Properties(latitude = myLatitude, longitude = myLongitude, rooms = myRooms, bathrooms = myBathrooms, propertyType = myPropertyType, yearBuilt = myYearBuilt, squareMeters = mySquareMeters, state = myState, country = myCountry)
- 			myNewProperty = Properties(latitude = myLatitude, longitude = myLongitude, rooms = myRooms, bathrooms = myBathrooms, propertyType = myPropertyType, yearBuilt = myYearBuilt, squareMeters = mySquareMeters)
+ 			myNewProperty = Properties(latitude = myLatitude, longitude = myLongitude, rooms = myRooms, bathrooms = myBathrooms, propertyType = myPropertyType, yearBuilt = myYearBuilt, squareMeters = mySquareMeters, state = myState, country = myCountry)
  			myNewPropertyKey = myNewProperty.put()
 
  			c.message = "inserted"
@@ -331,8 +330,8 @@ class ReadAllPropertiesHandler(webapp2.RequestHandler):
  				c.propertyType = i.propertyType
  				c.yearBuilt = i.yearBuilt
  				c.squareMeters = i.squareMeters
- 				# c.state = i.state
- 				# c.country = i.country
+ 				c.state = i.state
+ 				c.country = i.country
  				myList.append(c)
  		except:
  			c = ModelClass()
@@ -361,8 +360,8 @@ class ReadOnePropertyHandler(webapp2.RequestHandler):
  				c.propertyType = myProperty.propertyType
  				c.yearBuilt = myProperty.yearBuilt
  				c.squareMeters = myProperty.squareMeters
- 				# c.state = myProperty.state
- 				# c.country = myProperty.country
+ 				c.state = myProperty.state
+ 				c.country = myProperty.country
  			else:
  				c.message = "error: not found"
  		except:
@@ -401,8 +400,37 @@ class UpdatePropertyHandler(webapp2.RequestHandler):
  				myProperty.propertyType = myPropertyType
  				myProperty.yearBuilt = myYearBuilt
  				myProperty.squareMeters = mySquareMeters
- 				# myProperty.state = myState
- 				# myProperty.country = myCountry
+ 				myProperty.state = myState
+ 				myProperty.country = myCountry
+ 				myProperty.put()
+ 				c.message = "updated"
+ 			else:
+ 				c.message = "error: not found"
+
+ 		except:
+ 			c.message = "Exception..."
+
+ 		json_string = json.dumps(c, default=ObjectClass)
+ 		self.response.write(json_string)
+
+class SetPropertyLocationHandler(webapp2.RequestHandler):
+	def post(self):
+		self.response.headers.add_header('Access-Control-Allow-Origin ', '*') ##Query from any client ("firewall" to allow crossdomain)
+ 		self.response.headers['Content-Type'] = 'application/json'
+ 		c = ModelClass()
+
+ 		try:
+ 			propertyKey = self.request.get('key')
+ 			myState = self.request.get('state')
+ 			myCountry =  self.request.get('country')
+
+ 			id_propertyKey = ndb.Key(urlsafe=propertyKey)
+ 			myProperty = Properties.query(Properties.key == id_propertyKey).get()
+ 			c.key = propertyKey
+
+ 			if myProperty is not None:
+ 				myProperty.state = myState
+ 				myProperty.country = myCountry
  				myProperty.put()
  				c.message = "updated"
  			else:
@@ -486,6 +514,7 @@ app = webapp2.WSGIApplication([
 	('/companies', MainCompaniesHandler),
 	('/properties', MainPropertiesHandler),
 	('/maps', MainMapsHandler),
+	('/setPropertyLocation', SetPropertyLocationHandler),
 	('/reverseGeocoding', MainReverseGeocodingHandler),
  	('/createUser', CreateUserHandler),
  	('/readAllUsers', ReadAllUsersHandler),
