@@ -15,7 +15,7 @@ function insertUser()
     var val_password = $('#password').val();
     var val_nickname = $('#nickname').val();
     var val_age = $('#age').val();
-    var val_photourl = $('#photourl').val();
+    var val_photourl = sessionStorage.urlImage;
 
     var myUser = new User();
     myUser.email = val_email;
@@ -88,10 +88,10 @@ function getAllUsers()
           "  <tr> " + 
           "    <th> </th> " +
           // "    <th> entityKey </th> " +
-          "    <th> email </th> " +
-          "    <th> password </th> " +
-          "    <th> nickname </th> " +
-          "    <th> Photo URL </th> " + 
+          "    <th> Photo </th> " +
+          "    <th> Email </th> " +
+          "    <th> Password </th> " +
+          "    <th> Nickname </th> " +
           "    <th> Delete </th> " +
           "  </tr> ";
 
@@ -103,10 +103,10 @@ function getAllUsers()
           "<i class='fa fa fa-ban'></i> Edit </button> " + 
             "</td>" +
             // "<td > " + user.id + " </td> " + 
+            "<td > " + "<img src=\"" + user.photourl + "\" style=\"width:128px;height:128px;\">" +
             "<td > " + user.email + "</td> " +
             "<td > " + user.password + "</td> " +
             "<td > " + user.nickname + "</td> " + 
-            "<td > " + user.photourl + "</td> " + 
             "<td>" +
           "<button onclick='deleteUser(\"" + user.id + "\")' class='btn btn-danger'> " + 
           "<i class='fa fa fa-ban'></i> Delete </button>" + 
