@@ -13,7 +13,7 @@ function insertCompany()
     var val_name = $('#name').val();
     var val_address = $('#address').val();
     var val_RFC = $('#RFC').val();
-    var val_photourl = $('#photourl').val();
+    var val_photourl = sessionStorage.urlImage;
 
     var myCompany = new Company();
     myCompany.name = val_name;
@@ -83,10 +83,10 @@ function getAllCompanies()
           "  <tr> " + 
           "    <th> </th> " +
           // "    <th> entityKey </th> " +
-          "    <th> name </th> " + 
-          "    <th> address </th> " + 
+          "    <th> Photo </th> " +
+          "    <th> Name </th> " + 
+          "    <th> Address </th> " + 
           "    <th> RFC </th> " + 
-          "    <th> photourl </th> " + 
           "    <th> Delete </th> " +
           "  </tr> ";
 
@@ -98,10 +98,10 @@ function getAllCompanies()
           "<i class='fa fa fa-ban'></i> Edit </button> " + 
             "</td>" +
             // "<td > " + company.id + " </td> " + 
+            "<td > " + "<img src=\"" + company.photourl + "\" style=\"width:128px;height:128px;\">" +
             "<td > " + company.name + "</td> " + 
             "<td > " + company.address + "</td> " + 
             "<td > " + company.RFC + "</td> " + 
-            "<td > " + company.photourl + "</td> " + 
             "<td>" +
           "<button onclick='deleteCompany(\"" + company.id + "\")' class='btn btn-danger'> " + 
           "<i class='fa fa fa-ban'></i> Delete </button>" + 
