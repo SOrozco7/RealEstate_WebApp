@@ -9,6 +9,7 @@ function Property()
   this.squareMeters = "";
   this.state = "";
   this.country = "";
+  this.photourl = "";
 };
 
 function insertProperty()
@@ -35,6 +36,7 @@ function insertProperty()
     myProperty.squareMeters = val_squareMeters;
     myProperty.state = val_state;
     myProperty.country = val_country;
+    myProperty.photourl = sessionStorage.urlImage;
 
     var form_data = new FormData();
     form_data.append("latitude",  myProperty.latitude);
@@ -46,6 +48,7 @@ function insertProperty()
     form_data.append("squareMeters", myProperty.squareMeters);
     form_data.append("state", myProperty.state);
     form_data.append("country", myProperty.country);
+    form_data.append("photourl", myProperty.photourl);
 
     jQuery.support.cors = true; //CORS -> Cross-Origin Resource Sharing 
 
@@ -60,7 +63,7 @@ function insertProperty()
       crossDomain: true,
       success: function(response){
 
-        // alert("key generada " + response);
+        alert("key generada " + response);
         $('#latitude').val(String.empty);
         $('#longitude').val(String.empty);
         $('#rooms').val(String.empty);
@@ -68,6 +71,11 @@ function insertProperty()
         $('#propertyType').val(String.empty);
         $('#yearBuilt').val(String.empty);
         $('#squareMeters').val(String.empty);
+        $('#photourl').val(String.empty);
+
+        sessionStorage.setItem('keyUpdate', response);
+        alert("1_keyUpdate = " + response);
+        geocodeLatLng(val_latitude + "," + val_longitude);
       },
       error: function(error){
 
@@ -109,7 +117,9 @@ function getAllProperties()
           "  <tr> " + 
           "    <th> </th> " +
           // "    <th> entityKey </th> " +
+
           "    <th>  </th> " +
+          "    <th> Photo </th> " +
           "    <th> Latitude </th> " +
           "    <th> Longitude </th> " +
           "    <th> Rooms </th> " + 
@@ -134,6 +144,7 @@ function getAllProperties()
             "<i class='fa fa fa-ban'></i> Show in Map </button> " + 
             "</td>" +
             // "<td > " + property.id + " </td> " + 
+            "<td > " + "<img src=\"" + property.photourl + "\" style=\"width:256px;height:256px;\">" +
             "<td > " + property.latitude + "</td> " +
             "<td > " + property.longitude + "</td> " +
             "<td > " + property.rooms + "</td> " + 
@@ -188,6 +199,8 @@ function getOneProperty(propertyKey)
         $('#squareMeters').val(response.squareMeters);
         // $('#state').val(response.state);
         // $('#country').val(response.country);
+        $('#photourl').val(response.photourl);
+
         sessionStorage.setItem('keyUpdate', response.key);
       }
     });
@@ -203,10 +216,13 @@ function updateProperty()
   try
   {
     var myKeyUpdate = sessionStorage['keyUpdate'];
+
     // alert(myKeyUpdate);
 
     var val_latitude = $('#latitude').val();
     var val_longitude = $('#longitude').val();
+    geocodeLatLng(val_latitude + "," + val_longitude);
+
     var val_rooms = $('#rooms').val();
     var val_bathrooms = $('#bathrooms').val();
     var val_propertyType = $('#propertyType').val();
@@ -225,6 +241,7 @@ function updateProperty()
     myProperty.squareMeters = val_squareMeters;
     myProperty.state = val_state;
     myProperty.country = val_country;
+    myProperty.photourl = sessionStorage.urlImage;
 
     var form_data = new FormData();
     form_data.append("key", myKeyUpdate);
@@ -237,6 +254,7 @@ function updateProperty()
     form_data.append("squareMeters", myProperty.squareMeters);
     form_data.append("state", myProperty.state);
     form_data.append("country", myProperty.country);
+    form_data.append("photourl", myProperty.photourl);
 
     jQuery.support.cors = true;
 
@@ -260,8 +278,7 @@ function updateProperty()
         $('#propertyType').val(String.empty);
         $('#yearBuilt').val(String.empty);
         $('#squareMeters').val(String.empty);
-
-        getAllProperties();
+        $('#photourl').val(String.empty);
       },
       error: function(error){
 
@@ -339,6 +356,8 @@ function initMap(propertyCoords) {
 function geocodeLatLng(propertyCoords) {
 
   var API_KEY = "AIzaSyChdYfqr_M2yaNE6JzLUNv4dkvpcj8c3_U";
+  var myKeyUpdate = sessionStorage['keyUpdate'];
+  alert("myKeyUpdate is equal to " + myKeyUpdate);
 
   try{
 
@@ -361,20 +380,29 @@ function geocodeLatLng(propertyCoords) {
         var state = null;
         var country = null;
 
-        if(isNaN(d.results[0].address_components[length - 1].long_name)){
+        try{
 
-          state = d.results[0].address_components[length - 2].long_name;
-          country = d.results[0].address_components[length - 1].long_name;
+          if(isNaN(d.results[0].address_components[length - 1].long_name)){
+
+            state = d.results[0].address_components[length - 2].long_name;
+            country = d.results[0].address_components[length - 1].long_name;
+          }
+
+          else{
+
+            state = d.results[0].address_components[length - 3].long_name;
+            country = d.results[0].address_components[length - 2].long_name;
+          }
+        }
+        catch(error){
+
+          alert(error);
         }
 
-        else{
-
-          state = d.results[0].address_components[length - 3].long_name;
-          country = d.results[0].address_components[length - 2].long_name;
-        }
-
-        var ans = state + "," + country;
-        sessionStorage.setItem('stateCountry', ans);
+        var form_data = new FormData();
+        form_data.append("key", myKeyUpdate);
+        form_data.append("state",  state);
+        form_data.append("country", country);
 
         $.ajax({
 
@@ -383,18 +411,18 @@ function geocodeLatLng(propertyCoords) {
           cache: false,
           contentType: false,
           processData: false,
+          data: form_data,
           type: "post",
           crossDomain: true,
           success: function(response){
 
-            var ans = state + "," + country;
-            sessionStorage.setItem('stateCountry', ans);
+            alert("Success! The property at (" + propertyCoords + ") is in " + state + ", " + country);
           },
           error: function(error){
 
             alert(error);
           }
-        );
+        });
       },
       error: function(error){
 

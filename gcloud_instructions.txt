@@ -19,3 +19,14 @@ Para montar en Google Cloud
 3.- gcloud config set project helloworld-xxxxx
 4.- gcloud app create
 5.- gcloud app deploy
+
+
+#
+# To activate this environment, use:
+# > source activate python2
+#
+# To deactivate an active environment, use:
+# > source deactivate
+#
+# https://stackoverflow.com/questions/24405561/how-to-install-2-anacondas-python-2-7-and-3-4-on-mac-os-10-9
+#

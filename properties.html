@@ -231,6 +231,15 @@
           <input type="text-center" class="form-control" id="squareMeters" placeholder="Square meters">
         </div> 
 
+        <div class="col-md_offset-2 col-md-8 col-sm-offset-1 col-sm-10 text-center">
+          <label for="exampleInputEmail1"><i>Photo</i></label>
+          <br>
+          <img src="" alt="Image preview" id="preview" style="width:128px;height:128px;">
+          <br>
+           <input type="text-center" class="form-control" id="photourl" placeholder="Photo URL">
+          <br><input onchange="uploadDemo()" type="file" id="uploaded_file" name="uploaded_file">
+        </div>
+
         <div class="form-group">
 
           <button type="button" class="btn btn-primary" onclick="insertProperty()">
@@ -274,6 +283,8 @@
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="app/properties.js"></script>
+<script type="app/config.js"></script>
+<script src="app/upload.js"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChdYfqr_M2yaNE6JzLUNv4dkvpcj8c3_U&libraries=places"></script>
 
 </body>

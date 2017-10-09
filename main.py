@@ -8,6 +8,12 @@ from models import Users
 from models import Companies
 from models import Properties
 
+from google.appengine.api import app_identity
+import mimetypes
+import cloudstorage
+from google.appengine.ext import blobstore
+from google.appengine.api import images
+
 class ModelClass(object): ## Generic class without fields; we can add fields on the go as we need them56
  pass
 
@@ -299,8 +305,19 @@ class CreatePropertyHandler(webapp2.RequestHandler):
  			mySquareMeters = self.request.get('squareMeters')
  			myState = self.request.get('state')
  			myCountry = self.request.get('country')
+ 			myPhotoUrl = self.request.get('photourl')
 
- 			myNewProperty = Properties(latitude = myLatitude, longitude = myLongitude, rooms = myRooms, bathrooms = myBathrooms, propertyType = myPropertyType, yearBuilt = myYearBuilt, squareMeters = mySquareMeters, state = myState, country = myCountry)
+ 			myNewProperty = Properties(latitude = myLatitude, 
+ 									   longitude = myLongitude, 
+ 									   rooms = myRooms, 
+ 									   bathrooms = myBathrooms, 
+ 									   propertyType = myPropertyType, 
+ 									   yearBuilt = myYearBuilt, 
+ 									   squareMeters = mySquareMeters, 
+ 									   state = myState, 
+ 									   country = myCountry,
+ 									   photourl =  myPhotoUrl)
+ 			
  			myNewPropertyKey = myNewProperty.put()
 
  			c.message = "inserted"
@@ -332,6 +349,7 @@ class ReadAllPropertiesHandler(webapp2.RequestHandler):
  				c.squareMeters = i.squareMeters
  				c.state = i.state
  				c.country = i.country
+ 				c.photourl = i.photourl
  				myList.append(c)
  		except:
  			c = ModelClass()
@@ -387,6 +405,7 @@ class UpdatePropertyHandler(webapp2.RequestHandler):
  			mySquareMeters = self.request.get('squareMeters')
  			myState = self.request.get('state')
  			myCountry =  self.request.get('country')
+ 			myPhotoUrl = self.request.get('photourl')
 
  			id_propertyKey = ndb.Key(urlsafe=propertyKey)
  			myProperty = Properties.query(Properties.key == id_propertyKey).get()
@@ -402,6 +421,7 @@ class UpdatePropertyHandler(webapp2.RequestHandler):
  				myProperty.squareMeters = mySquareMeters
  				myProperty.state = myState
  				myProperty.country = myCountry
+ 				myProperty.photourl = myPhotoUrl
  				myProperty.put()
  				c.message = "updated"
  			else:
@@ -507,6 +527,49 @@ class MainReverseGeocodingHandler(webapp2.RequestHandler):
     template_context = {}
     self.response.out.write(template.render(template_context))
 
+####################################################################################
+
+class UpHandler(webapp2.RequestHandler):
+
+	def _get_urls_for(self, file_name):
+
+		bucket_name = app_identity.get_default_gcs_bucket_name()
+		path = os.path.join('/', bucket_name, file_name)
+		real_path = '/gs' + path
+		key = blobstore.create_gs_key(real_path)
+
+		try:
+
+			url = images.get_serving_url(key, size=0)
+
+		except images.TransformationError, images.NotImageError:
+
+			url = "http://storage.googleapis.com{}".format(path)
+
+		return url
+
+	def post(self):
+
+		self.response.headers.add_header('Access-Control-Allow-Origin', '*')
+		self.response.headers['Content-Type'] = 'application/json'
+
+		bucket_name = app_identity.get_default_gcs_bucket_name()
+		uploaded_file = self.request.POST.get('uploaded_file')
+		file_name = getattr(uploaded_file, 'filename', None)
+		file_content = getattr(uploaded_file, 'file', None)
+		real_path = ''
+
+		if file_name and file_content:
+			content_t = mimetypes.guess_type(file_name)[0]
+			real_path = os.path.join('/', bucket_name, file_name)
+
+		with cloudstorage.open(real_path, 'w', content_type=content_t,
+			options={'x-goog-acl': 'public-read'}) as f:
+			f.write(file_content.read())
+
+		key = self._get_urls_for(file_name)
+		self.response.write(key)
+
 app = webapp2.WSGIApplication([
 	('/', MainHandler),
 	('/home', MainHandler),
@@ -514,21 +577,27 @@ app = webapp2.WSGIApplication([
 	('/companies', MainCompaniesHandler),
 	('/properties', MainPropertiesHandler),
 	('/maps', MainMapsHandler),
+	#####################################################
 	('/setPropertyLocation', SetPropertyLocationHandler),
 	('/reverseGeocoding', MainReverseGeocodingHandler),
+	#####################################################
  	('/createUser', CreateUserHandler),
  	('/readAllUsers', ReadAllUsersHandler),
  	('/readOneUser', ReadOneUserHandler),
  	('/updateUser', UpdateUserHandler),
 	('/deleteUser', DeleteUserHandler),
+	####################################################
 	('/createCompany', CreateCompanyHandler),
  	('/readAllCompanies', ReadAllCompaniesHandler),
  	('/readOneCompany', ReadOneCompanyHandler),
  	('/updateCompany', UpdateCompanyHandler),
 	('/deleteCompany', DeleteCompanyHandler),
+	####################################################
 	('/createProperty', CreatePropertyHandler),
  	('/readAllProperties', ReadAllPropertiesHandler),
  	('/readOneProperty', ReadOnePropertyHandler),
  	('/updateProperty', UpdatePropertyHandler),
-	('/deleteProperty', DeletePropertyHandler)
+	('/deleteProperty', DeletePropertyHandler),
+	########################################
+	('/up', UpHandler)
 	], debug=True)
