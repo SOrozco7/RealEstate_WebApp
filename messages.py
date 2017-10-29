@@ -41,12 +41,14 @@ class UserInput(messages.Message):
     empresa_key = messages.StringField(2)
     email = messages.StringField(3)
     password = messages.StringField(4)
+    name = messages.StringField(5)
 
 class UserUpdate(messages.Message):
     token = messages.StringField(1)
     email = messages.StringField(2)
     password = messages.StringField(3)
-    entityKey = messages.StringField(4, required=True)
+    name = messages.StringField(4)
+    entityKey = messages.StringField(5, required=True)
 
 class UserList(messages.Message):
     code = messages.IntegerField(1)

@@ -19,6 +19,20 @@
 
 <body onload="getMyProperties()" data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
 
+<!-- Scripts
+================================================== -->
+<script type="text/javascript" src="scripts/jquery-2.2.0.min.js"></script>
+<script type="text/javascript" src="scripts/chosen.min.js"></script>
+<script type="text/javascript" src="scripts/magnific-popup.min.js"></script>
+<script type="text/javascript" src="scripts/owl.carousel.min.js"></script>
+<script type="text/javascript" src="scripts/rangeSlider.js"></script>
+<script type="text/javascript" src="scripts/sticky-kit.min.js"></script>
+<script type="text/javascript" src="scripts/slick.min.js"></script>
+<script type="text/javascript" src="scripts/masonry.min.js"></script>
+<script type="text/javascript" src="scripts/mmenu.min.js"></script>
+<script type="text/javascript" src="scripts/tooltips.min.js"></script>
+<script type="text/javascript" src="scripts/custom.js"></script>
+
 <!-- Wrapper -->
 <div id="wrapper">
 
@@ -272,7 +286,11 @@
 					<!-- User Menu -->
 					<div class="user-menu">
 						<!-- <div class="user-name"><span><img src="images/agent-03.jpg" alt=""></span>Hi, John!</div> -->
-						<div class="user-name"><span><img src="images/agent-03.jpg" alt=""></span><script>getPersonalGreeting()</script></div>
+						<script>getUserName()</script>
+						<div class="user-name" id="userName">
+							<span><img src="images/agent-03.jpg" alt=""></span>
+						</div>
+						
 						<ul>
 							<li><a href="/myProfile"><i class="sl sl-icon-user"></i> My Profile</a></li>
 							<li><a href="my-bookmarks.html"><i class="sl sl-icon-star"></i> Bookmarks</a></li>
@@ -428,20 +446,6 @@
 
 <!-- Back To Top Button -->
 <div id="backtotop"><a href="#"></a></div>
-
-<!-- Scripts
-================================================== -->
-<script type="text/javascript" src="scripts/jquery-2.2.0.min.js"></script>
-<script type="text/javascript" src="scripts/chosen.min.js"></script>
-<script type="text/javascript" src="scripts/magnific-popup.min.js"></script>
-<script type="text/javascript" src="scripts/owl.carousel.min.js"></script>
-<script type="text/javascript" src="scripts/rangeSlider.js"></script>
-<script type="text/javascript" src="scripts/sticky-kit.min.js"></script>
-<script type="text/javascript" src="scripts/slick.min.js"></script>
-<script type="text/javascript" src="scripts/masonry.min.js"></script>
-<script type="text/javascript" src="scripts/mmenu.min.js"></script>
-<script type="text/javascript" src="scripts/tooltips.min.js"></script>
-<script type="text/javascript" src="scripts/custom.js"></script>
 
 <!-- Style Switcher
 ================================================== -->

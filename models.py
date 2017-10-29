@@ -36,9 +36,10 @@ class Empresa(CustomBaseModel):
 #### Usuarios
 ###############
 class Usuarios(CustomBaseModel):
-    _message_fields_schema = ('entityKey', 'email', 'password', 'salt')
+    _message_fields_schema = ('entityKey', 'name', 'email', 'password', 'salt')
 
     empresa_key = ndb.KeyProperty(kind=Empresa)
+    name = ndb.StringProperty()
     email = ndb.StringProperty()
     password = ndb.StringProperty()
     salt = ndb.StringProperty(indexed=False)
@@ -192,6 +193,7 @@ if validarEmail("adsoft@kubeet.com") == False:
     keyadmincol = ndb.Key(urlsafe=empresaAdmin.entityKey)
     admin = Usuarios(
           empresa_key = keyadmincol,
+          name = "Adsoft",
           email="adsoft@kubeet.com",
           password="qubit",
     )
@@ -212,6 +214,7 @@ if validarEmail("salvador@orozco.in") == False:
     keyadmincolOther = ndb.Key(urlsafe=empresaOther.entityKey)
     adminOther = Usuarios(
           empresa_key = keyadmincolOther,
+          name = "Salvador",
           email="salvador@orozco.in",
           password="12345",
     )

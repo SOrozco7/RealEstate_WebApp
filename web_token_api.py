@@ -160,28 +160,51 @@ class UsuariosApi(remote.Service):
  @endpoints.method(TokenKey, UserList, path='user/get', http_method='POST', name='user.get')
  def user_get(cls, request):
   try:                 
-   token = jwt.decode(request.tokenint, 'secret')  #checa token
-   userentity = ndb.Key(urlsafe=request.entityKey)
-   user = Usuarios.get_by_id(userentity.id()) #obtiene usuario
-            #user = Usuarios.get_by_id(token['user_id']) #obtiene usuario dado el token
-   lista = []  #crea lista
-   lstMessage = UserList(code=1) # crea objeto mensaje
-   lista.append(UserUpdate(token='', 
-    entityKey= user.entityKey,
-    #empresa_key = user.empresa_key.urlsafe(),
-    email = user.email))
-   lstMessage.data = lista#ASIGNA a la salida la lista
-   message = lstMessage
+    token = jwt.decode(request.tokenint, 'secret')  #checa token
+    userentity = ndb.Key(urlsafe=request.entityKey)
+    user = Usuarios.get_by_id(userentity.id()) #obtiene usuario
+              #user = Usuarios.get_by_id(token['user_id']) #obtiene usuario dado el token
+    lista = []  #crea lista
+    lstMessage = UserList(code=1) # crea objeto mensaje
+    lista.append(UserUpdate(token='', 
+                            entityKey= user.entityKey,
+                            #empresa_key = user.empresa_key.urlsafe(),
+                            email = user.email))
+    lstMessage.data = lista#ASIGNA a la salida la lista
+    message = lstMessage
   except jwt.DecodeError:
-   message = UserList(code=-1, data=[]) #token invalido
+    message = UserList(code=-1, data=[]) #token invalido
   except jwt.ExpiredSignatureError:
-   message = UserList(code=-2, data=[]) #token expiro
+    message = UserList(code=-2, data=[]) #token expiro
   return message
+
+ @endpoints.method(Token, UserList, path='user/getCurrentUser', http_method='POST', name='user.getCurrentUser')
+ def user_getCurrentUser(cls, request):
+    try:  
+      token = jwt.decode(request.tokenint, 'secret')#CHECA EL TOKEN
+      # userentity = ndb.Key(urlsafe=request.entityKey)
+      user = Usuarios.get_by_id(token['user_id']) #obtiene usuario dado el token
+      
+      lista = []  #crea lista
+      lstMessage = UserList(code=1) # crea objeto mensaje
+      lista.append(UserUpdate(token='', 
+                              entityKey= user.entityKey,
+                              #empresa_key = user.empresa_key.urlsafe(),
+                              name = user.name,
+                              email = user.email))
+
+      lstMessage.data = lista#ASIGNA a la salida la lista
+      message = lstMessage
+    except jwt.DecodeError:
+      message = UserList(code=-1, data=[]) #token invalido
+    except jwt.ExpiredSignatureError:
+      message = UserList(code=-2, data=[]) #token expiro
+    return message
 
 ########################## list###################
 #                   ENTRADA    SALIDA        RUTA              siempre es POST     NOMBRE
-  @endpoints.method(Token, UserList, path='user/list', http_method='POST', name='user.list')
-  def user_list(cls, request):
+ @endpoints.method(Token, UserList, path='user/list', http_method='POST', name='user.list')
+ def user_list(cls, request):
     try:
       token = jwt.decode(request.tokenint, 'secret')  #checa token
       user = Usuarios.get_by_id(token['user_id']) #obtiene usuario dado el token
@@ -205,9 +228,8 @@ class UsuariosApi(remote.Service):
     
     return message
 
-  @endpoints.method(TokenKey, CodeMessage, path='user/delete', http_method='POST', name='user.delete')
-  #siempre lleva cls y request
-  def user_remove(cls, request):
+ @endpoints.method(TokenKey, CodeMessage, path='user/delete', http_method='POST', name='user.delete')
+ def user_remove(cls, request):
     try:
       
       token = jwt.decode(request.tokenint, 'secret')#CHECA EL TOKEN
@@ -225,8 +247,8 @@ class UsuariosApi(remote.Service):
 
 # insert
 #                   ENTRADA    SALIDA        RUTA              siempre es POST     NOMBRE
-  @endpoints.method(UserInput, CodeMessage, path='user/insert', http_method='POST', name='user.insert')
-  def user_add(cls, request):
+ @endpoints.method(UserInput, CodeMessage, path='user/insert', http_method='POST', name='user.insert')
+ def user_add(cls, request):
     try:
       token = jwt.decode(request.token, 'secret')#CHECA EL TOKEN
       user = Usuarios.get_by_id(token['user_id'])
