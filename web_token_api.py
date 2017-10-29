@@ -28,7 +28,7 @@ class UsuariosApi(remote.Service):
  @endpoints.method(TokenKey, UserList, path='user/get', http_method='POST', name='user.get')
  def user_get(cls, request):
   try:                 
-    token = jwt.decode(request.tokenint, 'secret')  #checa token
+    token = jwt.decode(request.token, 'secret')  #checa token
     userentity = ndb.Key(urlsafe=request.entityKey)
     user = Usuarios.get_by_id(userentity.id()) #obtiene usuario
               #user = Usuarios.get_by_id(token['user_id']) #obtiene usuario dado el token
@@ -49,7 +49,7 @@ class UsuariosApi(remote.Service):
  @endpoints.method(Token, UserList, path='user/getCurrentUser', http_method='POST', name='user.getCurrentUser')
  def user_getCurrentUser(cls, request):
     try:  
-      token = jwt.decode(request.tokenint, 'secret')#CHECA EL TOKEN
+      token = jwt.decode(request.token, 'secret')#CHECA EL TOKEN
       user = Usuarios.get_by_id(token['user_id']) #obtiene usuario dado el token
       
       lista = []  #crea lista
@@ -73,7 +73,7 @@ class UsuariosApi(remote.Service):
  @endpoints.method(Token, UserList, path='user/list', http_method='POST', name='user.list')
  def user_list(cls, request):
     try:
-      token = jwt.decode(request.tokenint, 'secret')  #checa token
+      token = jwt.decode(request.token, 'secret')  #checa token
       user = Usuarios.get_by_id(token['user_id']) #obtiene usuario dado el token
       lista = []  #crea lista
       lstMessage = UserList(code=1) # crea objeto mensaje
@@ -99,7 +99,7 @@ class UsuariosApi(remote.Service):
  def user_remove(cls, request):
     try:
       
-      token = jwt.decode(request.tokenint, 'secret')#CHECA EL TOKEN
+      token = jwt.decode(request.token, 'secret')#CHECA EL TOKEN
       usersentity = ndb.Key(urlsafe=request.entityKey)#Obtiene el elemento dado el EntitKey
       usersentity.delete()#BORRA
       message = CodeMessage(code=1, message='Succesfully deleted')
@@ -197,7 +197,7 @@ class EmpresasApi(remote.Service):
 #siempre lleva cls y request
  def empresa_get(cls, request):
   try:
-    token = jwt.decode(request.tokenint, 'secret')#CHECA EL TOKEN
+    token = jwt.decode(request.token, 'secret')#CHECA EL TOKEN
       #Obtiene el elemento dado el entityKey
     empresaentity = ndb.Key(urlsafe=request.entityKey)
       #CREA LA SALIDA de tipo JosueInput y le asigna los valores, es a como se declaro en el messages.py
@@ -219,7 +219,7 @@ class EmpresasApi(remote.Service):
 #siempre lleva cls y request
  def empresa_remove(cls, request):
   try:
-    token = jwt.decode(request.tokenint, 'secret')#CHECA EL TOKEN
+    token = jwt.decode(request.token, 'secret')#CHECA EL TOKEN
     empresaentity = ndb.Key(urlsafe=request.entityKey)#Obtiene el elemento dado el EntitKey
     empresaentity.delete()#BORRA
     message = CodeMessage(code=1, message='Succesfully deleted')
@@ -284,7 +284,7 @@ class EmpresasApi(remote.Service):
 #siempre lleva cls y request
  def empresa_list(cls, request):
   try:
-    token = jwt.decode(request.tokenint, 'secret')#CHECA EL TOKEN
+    token = jwt.decode(request.token, 'secret')#CHECA EL TOKEN
     user = Usuarios.get_by_id(token['user_id']) #obtiene usuario dado el token
     #if user.importante==1 or user.importante==2:
     lista = [] #crea lista para guardar contenido de la BD
@@ -322,7 +322,7 @@ class PropertyApi(remote.Service):
   #siempre lleva cls y request
   def property_get(cls, request):
     try:
-      token = jwt.decode(request.tokenint, 'secret')#CHECA EL TOKEN
+      token = jwt.decode(request.token, 'secret')#CHECA EL TOKEN
       #Obtiene el elemento dado el entityKey
       propertyEntity = ndb.Key(urlsafe = request.entityKey)
       myProperty = Property.get_by_id(propertyEntity.id())
@@ -362,7 +362,7 @@ class PropertyApi(remote.Service):
   def property_remove(cls, request):
     try:
       
-      token = jwt.decode(request.tokenint, 'secret')#CHECA EL TOKEN
+      token = jwt.decode(request.token, 'secret')#CHECA EL TOKEN
       propertyEntity = ndb.Key(urlsafe = request.entityKey)#Obtiene el elemento dado el EntityKey
       propertyEntity.delete()
       message = CodeMessage(code = 1, message = 'Succesfully deleted')
@@ -381,7 +381,7 @@ class PropertyApi(remote.Service):
   def property_add(cls, request):
     try:
 
-      token = jwt.decode(request.tokenint, 'secret')#CHECA EL TOKEN
+      token = jwt.decode(request.token, 'secret')#CHECA EL TOKEN
       user = Usuarios.get_by_id(token['user_id'])#obtiene el usuario models.py 
       
       myProperty = Property()
@@ -434,7 +434,7 @@ class PropertyApi(remote.Service):
   def property_list(cls, request):
     try:
 
-      token = jwt.decode(request.tokenint, 'secret')#CHECA EL TOKEN
+      token = jwt.decode(request.token, 'secret')#CHECA EL TOKEN
       lista = [] #crea lista para guardar contenido de la BD
       lstMessage = PropertyList(code = 1) #CREA el mensaje de salida
       user = Usuarios.get_by_id(token['user_id']) #obtiene usuario dado el token

@@ -29,14 +29,14 @@ function PropertyObject(entityKey,
     this.area = myArea;
     this.description = myDescription;
     this.photourl = myPhotoUrl;
-    this.tokenint = sessionStorage.token;
+    this.token = sessionStorage.token;
 
     this.toJsonString = function () { return JSON.stringify(this); };
 };
 
 function TokenObject() {
     
-    this.tokenint = sessionStorage.token;
+    this.token = sessionStorage.token;
     this.toJsonString = function () { return JSON.stringify(this); };
 };
 
@@ -95,10 +95,69 @@ function addProperty()
     }
 }
 
-function editProperty(propertyKey)
+function loadPropertyInformation()
+{
+    try
+    {
+        var urlVariables = getURLVariables();
+        propertyKey = urlVariables.propertyID;
+        var myProperty = new PropertyObject(entityKey = propertyKey);
+
+        jQuery.ajax({
+            type: "POST",
+            url: "http://localhost:8080/_ah/api/property_api/v1/property/get",
+            // url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/get", //Use this when the website is live
+            data: myProperty.toJsonString(),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                // do something
+
+                totalProperties = response.data;
+
+                try{
+                    totalProperties.forEach(function(property){
+
+                        $("#title").val(property.title);
+                        $("#status").val(property.status);
+                        $("#price").val(property.price);
+                        $("#address").val(property.address);
+                        $("#city").val(property.city);
+                        $("#state").val(property.state);
+                        $("#zipcode").val(property.zipcode);
+                        $("#rooms").val(property.rooms);
+                        $("#bathrooms").val(property.bathrooms);
+                        $("#propertyType").val(property.propertyType);
+                        $("#yearBuilt").val(property.yearBuilt);
+                        $("#area").val(property.area);
+                        $("#description").val(property.description);
+                        $("#photourl").val(property.photourl);
+                    });
+                }
+                catch(error){
+                    
+                    alert(error);
+                }
+            },
+       
+            error: function (error) {            
+                // error handler
+                alert("error :" + error.message)
+            }
+        });
+   }
+   catch(error)
+   {
+        alert(error);
+   }
+}
+
+function editProperty()
 {
 	try
     {
+        var urlVariables = getURLVariables();
+        propertyKey = urlVariables.propertyID;
         alert("token : " + sessionStorage.token);
         
         var myData = new PropertyObject(entityKey = propertyKey,
@@ -571,14 +630,17 @@ function getMyProperties()
                                                                 "<h4><a>" + property.title + "</a></h4>" +
                                                                 "<span class='table-property-price'>$" + property.price + "</span>" +
                                                                 "<span>" + property.address + "</span>" +
-                                                                "<input type='hidden' name='propertyID' value='" + property.entityKey+ "'/>" +
+                                                                "<input type='hidden' name='propertyID' value='" + property.entityKey + "'/>" +
                                                                 "<input type='submit' value='View details'/>" +
                                                             "</form>" +
                                                         "</div>" +
                                                     "</td>" +
                                                     // "<td class='expire-date'>December 30, 2016</td>" +
                                                     "<td class='action'>" +
-                                                        "<a onclick='showEditProperty(\"" + property.entityKey + "\")'><i class='fa fa-pencil'></i> Edit</a>" +
+                                                        "<form action='/editProperty' method='GET'>" +
+                                                            "<input type='hidden' name='propertyID' value='" + property.entityKey + "'/>" +
+                                                            "<input type='submit' value='Edit'/>" +
+                                                        "</form>" +
                                                         "<a href='#'><i class='fa  fa-eye-slash'></i> Hide</a>" +
                                                         "<a onclick='deleteProperty(\"" + property.entityKey + "\")' class='delete'><i class='fa fa-remove'></i> Delete</a>" +
                                                     "</td>" +
@@ -632,7 +694,7 @@ function upload()
                 document.getElementById("preview").src = response;
                 alert("response" + response);
                 sessionStorage.urlImage = response;
-                document.getElementById("url_photo").value = response;
+                document.getElementById("photourl").value = response;
                 alert(sessionStorage.urlImage);
             },
 

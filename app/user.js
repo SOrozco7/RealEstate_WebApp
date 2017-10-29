@@ -7,7 +7,7 @@ function UserObject(entityKey,
     this.email = email;
     this.password = password;
     this.salt = salt;
-    this.tokenint = sessionStorage.token;
+    this.token = sessionStorage.token;
 
     this.toJsonString = function(){ 
         
@@ -17,7 +17,7 @@ function UserObject(entityKey,
 
 function TokenObject() {
 
-    this.tokenint = sessionStorage.token;
+    this.token = sessionStorage.token;
     this.toJsonString = function () { return JSON.stringify(this); };
 };
 

@@ -6,13 +6,11 @@ class MessageNone(messages.Message):
 # Input messages
 #Recibe el token para validar
 class Token(messages.Message):
-    tokenint = messages.StringField(1, required=True)
-    #entityKey = messages.StringField(2, required=False)
-    #fromurl = messages.StringField(3)
+    token = messages.StringField(1, required=True)
 
 #Recibe el token y un entityKey de cualquier base de datos para validar
 class TokenKey(messages.Message):
-    tokenint = messages.StringField(1, required=True)
+    token = messages.StringField(1, required=True)
     entityKey = messages.StringField(2, required=True)
     #fromurl = messages.StringField(3)
 
@@ -78,7 +76,7 @@ class EmpresaList(messages.Message):
 #### Property
 ###########################
 class PropertyInput(messages.Message):
-    tokenint = messages.StringField(1, required=True) 
+    token = messages.StringField(1, required=True) 
     title = messages.StringField(2)
     status = messages.StringField(3)
     price = messages.StringField(4)
