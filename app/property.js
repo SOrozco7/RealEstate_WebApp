@@ -46,7 +46,7 @@ function addProperty()
     {
         alert("token : " + newFunction());
         
-        var myData = new PropertyObject(entityKey = "!!??",
+        var myData = new PropertyObject(entityKey = "",
                                         title = $("#title").val(),
                                         status = $("#status").val(),
                                         price = $("#price").val(),
@@ -67,8 +67,8 @@ function addProperty()
         jQuery.ajax({
 
             type: "POST",
-            // url: "http://localhost:8080/_ah/api/property_api/v1/property/insert",
-            url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/insert", //Use this when the website is live
+            url: "http://localhost:8080/_ah/api/property_api/v1/property/insert",
+            // url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/insert", //Use this when the website is live
             data: myData.toJsonString(),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -90,43 +90,8 @@ function addProperty()
     }
 
     function newFunction() {
-        return sessionStorage.token;
-    }
-}
-
-function showEditProperty(propertyKey)
-{
-	try
-    {
-        alert("sessionStorage.token = " + sessionStorage.token);
-        var myProperty = new PropertyObject(entityKey = propertyKey);
-        alert("myProperty.toJsonString() = " + myProperty.toJsonString());
-
-        jQuery.support.cors = true;
-
-        jQuery.ajax({
-
-            type: "GET",
-            // url: "http://localhost:8080/_ah/api/property_api/v1/property/showupdate",
-            url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/showupdate", //Use this when the website is live
-            data: myProperty.toJsonString(),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                // do something
-                // alert (response.code + " " + response.message);
-                window.location = "/editProperty";
-            },
         
-            error: function (error) {            
-                // error handler
-                alert("error :" + error.message)
-            }
-        });
-    }
-    catch(error)
-    {
-        alert(error);
+        return sessionStorage.token;
     }
 }
 
@@ -157,8 +122,8 @@ function editProperty(propertyKey)
         jQuery.ajax({
 
             type: "POST",
-            // url: "http://localhost:8080/_ah/api/property_api/v1/property/update",
-            url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/update", //Use this when the website is live
+            url: "http://localhost:8080/_ah/api/property_api/v1/property/update",
+            // url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/update", //Use this when the website is live
             data: myData.toJsonString(),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -191,8 +156,8 @@ function deleteProperty(propertyKey)
         jQuery.ajax({
 
             type: "POST",
-            // url: "http://localhost:8080/_ah/api/property_api/v1/property/delete",
-            url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/delete", //Use this when the website is live
+            url: "http://localhost:8080/_ah/api/property_api/v1/property/delete",
+            // url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/delete", //Use this when the website is live
             data: myProperty.toJsonString(),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -224,8 +189,8 @@ function getProperty()
 
         jQuery.ajax({
             type: "POST",
-            // url: "http://localhost:8080/_ah/api/property_api/v1/property/get",
-            url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/get", //Use this when the website is live
+            url: "http://localhost:8080/_ah/api/property_api/v1/property/get",
+            // url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/get", //Use this when the website is live
             data: myProperty.toJsonString(),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -571,22 +536,21 @@ function getMyProperties()
     {
         //alert("token : " + sessionStorage.token);
         var myData = new TokenObject();
-        alert(myData.toJsonString());
+        // alert(myData.toJsonString());
 
         jQuery.ajax({
             type: "POST",
-            // url: "http://localhost:8080/_ah/api/property_api/v1/property/list",
-            url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/list",
+            url: "http://localhost:8080/_ah/api/property_api/v1/property/list",
+            // url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/list",
             data: myData.toJsonString(),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
                 // do something
-                alert (response.data);
 
                 $("#listProperties").empty();
+                // alert(JSON.stringify(response));
                 totalProperties = response.data;
-                // alert(response);
 
                 var myTableProperties = "<table class='manage-table responsive-table'>" +
                                         "<tr>" +

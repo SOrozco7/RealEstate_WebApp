@@ -75,51 +75,6 @@ class EmpresaList(messages.Message):
     data = messages.MessageField(EmpresaUpdate, 2, repeated=True)
 
 ###########################
-#### Tweet
-###########################
-#Mensaje de Entrada y Salida para Tweets
-class TweetInput(messages.Message):
-    token = messages.StringField(1, required=True) 
-    title = messages.StringField(2)
-    description = messages.StringField(3)
-    urlImage = messages.StringField(5)
-    
-class TweetUpdate(messages.Message):
-    token = messages.StringField(1, required=True)
-    entityKey = messages.StringField(2, required=True)
-    title = messages.StringField(3)
-    description = messages.StringField(4)
-    urlImage = messages.StringField(5)
-
-#regresa una lista para la base de datos Empresa
-class TweetList(messages.Message):
-    code = messages.IntegerField(1)
-    data = messages.MessageField(TweetUpdate, 2, repeated=True)
-
-###########################
-#### Company
-###########################
-class CompanyInput(messages.Message):
-    token = messages.StringField(1, required=True) 
-    name = messages.StringField(2)
-    address = messages.StringField(3)
-    RFC = messages.StringField(4)
-    photourl = messages.StringField(5)
-    
-class CompanyUpdate(messages.Message):
-    token = messages.StringField(1, required=True)
-    entityKey = messages.StringField(2, required=True)
-    name = messages.StringField(3)
-    address = messages.StringField(4)
-    RFC = messages.StringField(5)
-    photourl = messages.StringField(6)
-
-#regresa una lista para la base de datos Company
-class CompanyList(messages.Message):
-    code = messages.IntegerField(1)
-    data = messages.MessageField(CompanyUpdate, 2, repeated=True)
-
-###########################
 #### Property
 ###########################
 class PropertyInput(messages.Message):
@@ -161,25 +116,3 @@ class PropertyUpdate(messages.Message):
 class PropertyList(messages.Message):
     code = messages.IntegerField(1)
     data = messages.MessageField(PropertyUpdate, 2, repeated=True)
-
-###########################
-#### Product
-###########################
-class ProductInput(messages.Message):
-
-    token = messages.StringField(1, required=True) 
-    code = messages.StringField(2)
-    description = messages.StringField(3)
-    urlImage = messages.StringField(5)
-
-class ProductUpdate(messages.Message):
-    token = messages.StringField(1, required=True)
-    entityKey = messages.StringField(2, required=True)
-    code = messages.StringField(3)
-    description = messages.StringField(4)
-    urlImage = messages.StringField(5)
-
-#regresa una lista para la base de datos Product
-class ProductList(messages.Message):
-    code = messages.IntegerField(1)
-    data = messages.MessageField(ProductUpdate, 2, repeated=True)

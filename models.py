@@ -72,40 +72,6 @@ class Usuarios(CustomBaseModel):
         user.put()#inserta o hace un update depende del main.py
         return 0
 
-###############
-#### Product
-###############
-class Product(CustomBaseModel):
-    _message_fields_schema = ('entityKey', 'code', 'description', 'urlImage')
-    user_key = ndb.KeyProperty(kind=Usuarios)
-    code = ndb.StringProperty()
-    description = ndb.StringProperty()
-    urlImage = ndb.StringProperty()
-
-    def product_m(self, data, userkey):
-        
-        product = Product()#Crea una variable de tipo Tweet
-        product.populate(data)#Llena la variables con los datos dados por el request en main.py
-        product.user_key=userkey#inserta el entityKey de la empresa que es un parametro que se manda en main.py
-        product.put()#inserta o hace un update depende del main.py
-        return 0
-
-###########################
-#### Company
-###########################
-class Company(CustomBaseModel):
-    _message_fields_schema = ('name', 'address', 'RFC', 'photourl')
-    name = ndb.StringProperty()
-    address = ndb.StringProperty()
-    RFC = ndb.StringProperty()
-    photourl = ndb.StringProperty()
-
-    def company_m(self, data):
-        company = Company()
-        company.populate(data)
-        company.put()
-        return 0
-
 ###########################
 #### Property
 ###########################
@@ -150,24 +116,6 @@ class Property(CustomBaseModel):
         myProperty.populate(data)
         myProperty.usuario_key = usuario_key
         myProperty.put()
-        return 0
-
-###########################
-#### Tweet
-###########################
-class Tweet(CustomBaseModel):
-    _message_fields_schema = ('entityKey', 'title', 'description', 'urlImage')
-    empresa_key = ndb.KeyProperty(kind=Empresa)
-    title = ndb.StringProperty()
-    description = ndb.StringProperty()
-    urlImage = ndb.StringProperty()
- 
-    ### Tweet ####
-    def tweet_m(self, data, empresakey):
-        tweet = Tweet()#Crea una variable de tipo Tweet
-        tweet.populate(data)#Llena la variables con los datos dados por el request en main.py
-        tweet.empresa_key=empresakey#inserta el entityKey de la empresa que es un parametro que se manda en main.py
-        tweet.put()#inserta o hace un update depende del main.py
         return 0
 
 #### create demo

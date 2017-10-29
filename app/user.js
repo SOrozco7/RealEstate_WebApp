@@ -9,7 +9,10 @@ function UserObject(entityKey,
     this.salt = salt;
     this.tokenint = sessionStorage.token;
 
-    this.toJsonString = function () { return JSON.stringify(this); };
+    this.toJsonString = function(){ 
+        
+        return JSON.stringify(this); 
+    };
 };
 
 function TokenObject() {
@@ -29,8 +32,8 @@ function getUserName()
 
         jQuery.ajax({
             type: "POST",
-            // url: "http://localhost:8080/_ah/api/property_api/v1/property/getCurrentUser",
-            url: "https://realestate-salvador.appspot.com/_ah/api/usuarios_api/v1/user/getCurrentUser",
+            url: "http://localhost:8080/_ah/api/usuarios_api/v1/user/getCurrentUser",
+            // url: "https://realestate-salvador.appspot.com/_ah/api/usuarios_api/v1/user/getCurrentUser",
             data: myData.toJsonString(),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -38,6 +41,7 @@ function getUserName()
                 // do something
 
                 totalUsers = response.data
+                
                 totalUsers.forEach(function(user){
 
                     var email = user.email;
@@ -45,7 +49,6 @@ function getUserName()
                     var userName = words[0];
                     $("#userName").append(userName);
                 });
-                            
             },
        
             error: function (error) {            
