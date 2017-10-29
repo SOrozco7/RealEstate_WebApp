@@ -67,8 +67,8 @@ function addProperty()
         jQuery.ajax({
 
             type: "POST",
-            // url: "https://MI_DOMINIO/_ah/api/property_api/v1/property/insert //Use this when the website is live
-            url: "http://localhost:8080/_ah/api/property_api/v1/property/insert",
+            // url: "http://localhost:8080/_ah/api/property_api/v1/property/insert",
+            url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/insert", //Use this when the website is live
             data: myData.toJsonString(),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -103,8 +103,8 @@ function showEditProperty(propertyKey)
         jQuery.ajax({
 
             type: "GET",
-            // url: "https://MI_DOMINIO/_ah/api/property_api/v1/property/showupdate //Use this when the website is live
-            url: "http://localhost:8080/_ah/api/property_api/v1/property/showupdate",
+            // url: "http://localhost:8080/_ah/api/property_api/v1/property/showupdate",
+            url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/showupdate", //Use this when the website is live
             data: myProperty.toJsonString(),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -153,8 +153,8 @@ function editProperty(propertyKey)
         jQuery.ajax({
 
             type: "POST",
-            // url: "https://MI_DOMINIO/_ah/api/property_api/v1/property/update //Use this when the website is live
-            url: "http://localhost:8080/_ah/api/property_api/v1/property/update",
+            // url: "http://localhost:8080/_ah/api/property_api/v1/property/update",
+            url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/update", //Use this when the website is live
             data: myData.toJsonString(),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -187,8 +187,8 @@ function deleteProperty(propertyKey)
         jQuery.ajax({
 
             type: "POST",
-            // url: "https://MI_DOMINIO/_ah/api/property_api/v1/property/delete //Use this when the website is live
-            url: "http://localhost:8080/_ah/api/property_api/v1/property/delete",
+            // url: "http://localhost:8080/_ah/api/property_api/v1/property/delete",
+            url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/delete", //Use this when the website is live
             data: myProperty.toJsonString(),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -220,8 +220,8 @@ function getProperty()
 
         jQuery.ajax({
             type: "POST",
-            // url: "https://MI_DOMINIO/_ah/api/property_api/v1/property/get //Use this when the website is live
-            url: "http://localhost:8080/_ah/api/property_api/v1/property/get",
+            // url: "http://localhost:8080/_ah/api/property_api/v1/property/get",
+            url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/get", //Use this when the website is live
             data: myProperty.toJsonString(),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -564,7 +564,8 @@ function getMyProperties()
 
         jQuery.ajax({
             type: "POST",
-            url: "http://localhost:8080/_ah/api/property_api/v1/property/list",
+            // url: "http://localhost:8080/_ah/api/property_api/v1/property/list",
+            url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/list",
             data: myData.toJsonString(),
             contentType: "application/json; charset=utf-8",
             dataType: "json",

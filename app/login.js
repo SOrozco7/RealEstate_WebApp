@@ -15,7 +15,8 @@ function loginDemo()
 	jQuery.ajax({
          
         type: "POST",
-        url: "http://localhost:8080/_ah/api/usuarios_api/v1/users/login",
+        // url: "http://localhost:8080/_ah/api/usuarios_api/v1/users/login",
+        url: "https://realestate-salvador.appspot.com/_ah/api/usuarios_api/v1/users/login",
         data: myData.toJsonString(),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
