@@ -88,11 +88,6 @@ function addProperty()
     {
         alert(error);
     }
-
-    function newFunction() {
-        
-        return sessionStorage.token;
-    }
 }
 
 function loadPropertyInformation()
@@ -102,6 +97,7 @@ function loadPropertyInformation()
         var urlVariables = getURLVariables();
         propertyKey = urlVariables.propertyID;
         var myProperty = new PropertyObject(entityKey = propertyKey);
+        alert(myProperty.toJsonString());
 
         jQuery.ajax({
             type: "POST",
@@ -189,6 +185,7 @@ function editProperty()
             success: function (response) {
                     // do something
                     alert (response.code + " " + response.message);
+                    window.location = "/myProperties";
             },
         
             error: function (error) {            
@@ -307,7 +304,7 @@ function getProperty()
                                         //     "<li>Laundry Room</li>" +
                                         //     "<li>Gym</li>" +
                                         //     "<li>Alarm</li>" +
-                                        //     "<li>Window Covering</li>" +
+                                        //     "<li>token Covering</li>" +
                                         //     "<li>Internet</li>" +
                                         // "</ul>" +
 
