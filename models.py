@@ -187,7 +187,7 @@ if validarEmail("adsoft@kubeet.com") == False:
     )
     empresaAdmin.put()
 
-#### create root user  
+    #### create root user  
 
     keyadmincol = ndb.Key(urlsafe=empresaAdmin.entityKey)
     admin = Usuarios(
@@ -197,3 +197,23 @@ if validarEmail("adsoft@kubeet.com") == False:
     )
     admin.hash_password()
     admin.put()
+
+#### create another user
+if validarEmail("salvador@orozco.in") == False:
+    
+    empresaOther = Empresa(
+        codigo_empresa = 'orvis',
+        nombre_empresa="orvis srl de cv",
+    )
+    empresaOther.put()
+
+    #### create another user 
+
+    keyadmincolOther = ndb.Key(urlsafe=empresaOther.entityKey)
+    adminOther = Usuarios(
+          empresa_key = keyadmincolOther,
+          email="salvador@orozco.in",
+          password="12345",
+    )
+    adminOther.hash_password()
+    adminOther.put()

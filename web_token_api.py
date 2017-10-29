@@ -157,8 +157,8 @@ class ProductsApi(remote.Service):
 @endpoints.api(name='usuarios_api', version='v1', description='usuarios endpoints')
 class UsuariosApi(remote.Service):
 ###############get the info of one########
- @endpoints.method(TokenKey, UserList, path='users/get', http_method='POST', name='users.get')
- def users_get(cls, request):
+ @endpoints.method(TokenKey, UserList, path='user/get', http_method='POST', name='user.get')
+ def user_get(cls, request):
   try:                 
    token = jwt.decode(request.tokenint, 'secret')  #checa token
    userentity = ndb.Key(urlsafe=request.entityKey)
@@ -178,11 +178,10 @@ class UsuariosApi(remote.Service):
    message = UserList(code=-2, data=[]) #token expiro
   return message
 
-
 ########################## list###################
 #                   ENTRADA    SALIDA        RUTA              siempre es POST     NOMBRE
-  @endpoints.method(Token, UserList, path='users/list', http_method='POST', name='users.list')
-  def lista_usuarios(cls, request):
+  @endpoints.method(Token, UserList, path='user/list', http_method='POST', name='user.list')
+  def user_list(cls, request):
     try:
       token = jwt.decode(request.tokenint, 'secret')  #checa token
       user = Usuarios.get_by_id(token['user_id']) #obtiene usuario dado el token
@@ -206,7 +205,7 @@ class UsuariosApi(remote.Service):
     
     return message
 
-  @endpoints.method(TokenKey, CodeMessage, path='users/delete', http_method='POST', name='users.delete')
+  @endpoints.method(TokenKey, CodeMessage, path='user/delete', http_method='POST', name='user.delete')
   #siempre lleva cls y request
   def user_remove(cls, request):
     try:
@@ -226,7 +225,7 @@ class UsuariosApi(remote.Service):
 
 # insert
 #                   ENTRADA    SALIDA        RUTA              siempre es POST     NOMBRE
-  @endpoints.method(UserInput, CodeMessage, path='users/insert', http_method='POST', name='users.insert')
+  @endpoints.method(UserInput, CodeMessage, path='user/insert', http_method='POST', name='user.insert')
   def user_add(cls, request):
     try:
       token = jwt.decode(request.token, 'secret')#CHECA EL TOKEN
@@ -256,8 +255,8 @@ class UsuariosApi(remote.Service):
 
 ##login##
 
- @endpoints.method(EmailPasswordMessage, TokenMessage, path='users/login', http_method='POST', name='users.login')
- def users_login(cls, request):
+ @endpoints.method(EmailPasswordMessage, TokenMessage, path='user/login', http_method='POST', name='user.login')
+ def user_login(cls, request):
   try:
    user = Usuarios.query(Usuarios.email == request.email).fetch() #obtiene el usuario dado el email
    if not user or len(user) == 0: #si no encuentra user saca
