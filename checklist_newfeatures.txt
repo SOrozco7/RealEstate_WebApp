@@ -1,0 +1,191 @@
+new - web token api
+1.- update models (Product)
+class Product(CustomBaseModel):
+_message_fields_schema = ('entityKey', 'code', 'description', 'urlImage')
+user_key = ndb.KeyProperty(kind=Usuarios)
+code = ndb.StringProperty()
+description = ndb.StringProperty()
+urlImage = ndb.StringProperty()
+
+
+2.- add operation
+### Add product ####
+def product_m(self, data, userkey):
+product = Product()#Crea una variable de tipo Tweet
+product.populate(data)#Llena la variables con los datos dados por el request en main.py
+product.user_key=userkey#inserta el entityKey de la empresa que es un parametro que se manda en main.py
+product.put()#inserta o hace un update depende del main.py
+return 0
+
+
+3.- in web_token_api.py import Product
+from models import Empresa, Usuarios, Tweet, Product
+
+
+4.- create new rest_api in web_token_api.py
+###############
+# Products
+###############
+@endpoints.api(name='products_api', version='v1', description='products endpoints')
+class ProductsApi(remote.Service):
+
+
+5.- add product_add
+# ENTRADA SALIDA RUTA siempre es POST NOMBRE
+@endpoints.method(ProductInput, CodeMessage, path='product/insert', http_method='POST', name='product.insert')
+#siempre lleva cls y request
+def product_add(cls, request):
+try:
+token = jwt.decode(request.token, 'secret')#CHECA EL TOKEN
+user = Usuarios.get_by_id(token['user_id']) #obtiene el usuario para poder acceder a los metodos declarados en models.py en la seccion de
+myproduct = Product()
+if myproduct.product_m(request, user.key)==0:#llama a la funcion declarada en models.py en la seccion de USUARIOS
+codigo=1
+else:
+codigo=-3
+#la funcion josue_m puede actualizar e insertar
+#depende de la ENTRADA de este endpoint method
+message = CodeMessage(code=codigo, message='Product added')
+except jwt.DecodeError:
+message = CodeMessage(code=-2, message='Invalid token')
+except jwt.ExpiredSignatureError:
+message = CodeMessage(code=-1, message='Token expired')
+return message
+
+
+6.- create message Class ProductInput in messages.py
+#Mensaje de Entrada y Salida para Tweets
+class ProductInput(messages.Message):
+token = messages.StringField(1, required=True) 
+code = messages.StringField(2)
+description = messages.StringField(3)
+urlImage = messages.StringField(5)
+
+
+7.- import messages in web_token_api
+from messages import ProductInput # UserUpdate, UserList
+
+
+8.- include api in
+application = endpoints.api_server([UsuariosApi, EmpresasApi, TweetApi, ProductApi], restricted=False)
+
+
+#######################################################################################
+
+product list - web token
+1.- add list operation in ProductApi
+@endpoints.method(Token, ProductList, path='products/list', http_method='POST', name='product.list')
+def product_list(cls, request):
+try:
+token = jwt.decode(request.tokenint, 'secret') #checa token
+user = Usuarios.get_by_id(token['user_id']) #obtiene usuario dado el token
+lista = [] #crea lista
+lstMessage = ProductList(code=1) # crea objeto mensaje
+lstBd = Product.query().fetch() # recupera de base de datos
+for i in lstBd: # recorre
+lista.append(ProductUpdate(token='',
+entityKey=i.entityKey,
+#empresa_key=user.empresa_key.urlsafe(),
+code=i.code,
+description=i.description,
+urlImage=i.urlImage)) # agrega a la lista
+lstMessage.data = lista # la manda al messa
+message = lstMessage #regresa
+except jwt.DecodeError:
+message = ProductList(code=-1, data=[]) #token invalido
+except jwt.ExpiredSignatureError:
+message = ProductList(code=-2, data=[]) #token expiro
+return message
+
+
+2.- create ProductUpdate, ProductList in Messages.py
+class ProductUpdate(messages.Message):
+token = messages.StringField(1, required=True)
+#empresa_key = messages.StringField(2, required=True)
+entityKey = messages.StringField(2, required=True)
+code = messages.StringField(3)
+description = messages.StringField(4)
+urlImage = messages.StringField(5)
+#regresa una lista para la base de datos Empresa
+class ProductList(messages.Message):
+code = messages.IntegerField(1)
+#regresa mensaje de lo ocurrido
+#mensaje de tipo MENSAJEFIELD que regresa una lista de tipo TeamUpdate
+#es necesario el repeated para que sea lista
+data = messages.MessageField(ProductUpdate, 2, repeated=True)
+
+
+3.- in web_token_api.py import ProductList, ProductUpdate
+from messages import ProductInput, ProductUpdate, ProductList
+
+
+##########################################################################################
+
+product - getone
+1.- add getone operation in ProductApi
+###get one product########
+@endpoints.method(TokenKey, ProductList, path='products/get', http_method='POST', name='products.get')
+def product_get(cls, request):
+try: 
+token = jwt.decode(request.tokenint, 'secret') #checa token
+productentity = ndb.Key(urlsafe=request.entityKey)
+product = Product.get_by_id(productentity.id()) #obtiene usuario
+#user = Usuarios.get_by_id(token['user_id']) #obtiene usuario dado el token
+lista = [] #crea lista
+lstMessage = ProductList(code=1) # crea objeto mensaje
+lista.append(ProductUpdate(token='', 
+entityKey= product.entityKey,
+#empresa_key = user.empresa_key.urlsafe(),
+code = product.code,
+description=product.description,
+urlImage=product.urlImage))
+lstMessage.data = lista#ASIGNA a la salida la lista
+message = lstMessage
+except jwt.DecodeError:
+message = ProductList(code=-1, data=[]) #token invalido
+except jwt.ExpiredSignatureError:
+message = ProductList(code=-2, data=[]) #token expiro
+return message
+
+
+######################################################################################
+
+product - delete
+1.- add delete operation in ProductApi
+@endpoints.method(TokenKey, CodeMessage, path='products/delete', http_method='POST', name='products.delete')
+#siempre lleva cls y request
+def product_remove(cls, request):
+try:
+token = jwt.decode(request.tokenint, 'secret')#CHECA EL TOKEN
+productentity = ndb.Key(urlsafe=request.entityKey)#Obtiene el elemento dado el EntitKey
+productentity.delete() #BORRA
+message = CodeMessage(code=1, message='Succesfully deleted')
+except jwt.DecodeError:
+message = CodeMessage(code=-2, message='Invalid token')
+except jwt.ExpiredSignatureError:
+message = CodeMessage(code=-1, message='Token expired')
+return message
+
+#####################################################################################
+
+update - product
+1.- add update operation in ProductApi
+@endpoints.method(ProductUpdate, CodeMessage, path='products/update', http_method='POST', name='products.update')
+#siempre lleva cls y request
+def product_update(cls, request):
+try:
+token = jwt.decode(request.token, 'secret')#CHECA EL TOKEN
+user = Usuarios.get_by_id(token['user_id'])#obtiene el usuario para poder acceder a los metodos declarados en models.py en la seccion de USUARIOS
+product = Product()
+if product.product_m(request, user.key)==0:#llama a la funcion declarada en models.py en la seccion de USUARIOS
+codigo=1
+else:
+codigo=-3
+#la funcion josue_m puede actualizar e insertar
+#depende de la ENTRADA de este endpoint method
+message = CodeMessage(code=1, message='Sus cambios han sido guardados exitosamente')
+except jwt.DecodeError:
+message = CodeMessage(code=-2, message='Invalid token')
+except jwt.ExpiredSignatureError:
+message = CodeMessage(code=-1, message='Token expired')
+return message

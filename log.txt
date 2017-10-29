@@ -1,0 +1,20 @@
+1. models.py
+    1.1 Add new models
+    1.2 Add the function to insert them in the DB
+
+2. Import new models in web_token_api.py
+
+3. Create new REST APIs in web_token_api.py (one per model)
+    3.1 Add (Create)
+        3.1.1 model_add()
+        3.1.2 create message Class ModelInput
+        3.1.3 import messages in web_token_api
+        3.1.4 include api in endpoints.api_server
+    3.2 Retrieve
+        3.2.1 List 
+            3.2.1.1 create ProductList in Messages.py
+            3.2.1.2 in web_token_api.py import ProductList
+        3.2.2 Get one
+            3.2.2.1 product_get
+    3.3 Update
+    3.4 Delete
