@@ -20,33 +20,33 @@ function TokenObject() {
 
 function getPersonalGreeting()
 {
-    try
-    {
-        empresaKey = 
-        var myProperty = new PropertyObject(entityKey = empresaKey);
+//     try
+//     {
+//         empresaKey = 
+//         var myProperty = new PropertyObject(entityKey = empresaKey);
 
-        jQuery.ajax({
-            type: "POST",
-            // url: "http://localhost:8080/_ah/api/property_api/v1/property/get",
-            url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/user/get", //Use this when the website is live
-            data: myProperty.toJsonString(),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                // do something
+//         jQuery.ajax({
+//             type: "POST",
+//             // url: "http://localhost:8080/_ah/api/property_api/v1/property/get",
+//             url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/user/get", //Use this when the website is live
+//             data: myProperty.toJsonString(),
+//             contentType: "application/json; charset=utf-8",
+//             dataType: "json",
+//             success: function (response) {
+//                 // do something
 
-                totalProperties = response.data;
+//                 totalProperties = response.data;
                 
-            },
+//             },
        
-            error: function (error) {            
-                // error handler
-                alert("error :" + error.message)
-            }
-        });
-   }
-   catch(error)
-   {
-        alert(error);
-   }
+//             error: function (error) {            
+//                 // error handler
+//                 alert("error :" + error.message)
+//             }
+//         });
+//    }
+//    catch(error)
+//    {
+//         alert(error);
+//    }
 }

@@ -44,7 +44,7 @@ function addProperty()
 {
 	try
     {
-        alert("token : " + sessionStorage.token);
+        alert("token : " + newFunction());
         
         var myData = new PropertyObject(entityKey = "!!??",
                                         title = $("#title").val(),
@@ -87,6 +87,10 @@ function addProperty()
     catch(error)
     {
         alert(error);
+    }
+
+    function newFunction() {
+        return sessionStorage.token;
     }
 }
 

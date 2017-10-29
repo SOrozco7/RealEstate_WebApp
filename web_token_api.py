@@ -729,9 +729,10 @@ class PropertyApi(remote.Service):
       
       token = jwt.decode(request.tokenint, 'secret')#CHECA EL TOKEN
       user = Usuarios.get_by_id(token['user_id']) #obtiene usuario dado el token
+      userKey = user.key.id()
       lista = [] #crea lista para guardar contenido de la BD
       lstMessage = PropertyList(code = 1) #CREA el mensaje de salida
-      lstBdProperty = Property.query().fetch() #obtiene de la base de datos
+      lstBdProperty = Property.query(Property.usuario_key == userKey).fetch() #obtiene de la base de datos
       for i in lstBdProperty: #recorre la base de datos
         lista.append(PropertyUpdate(token = '', 
                                     entityKey = i.entityKey,

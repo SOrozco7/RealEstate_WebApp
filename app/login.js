@@ -31,5 +31,4 @@ function loginDemo()
               alert(error)
         }
     });
-
 }
