@@ -238,7 +238,7 @@ function deleteProperty(propertyKey)
 function getPropertyData()
 {
     try
-    {
+    {   
         var urlVariables = getURLVariables();
         propertyKey = urlVariables.propertyID;
         var myProperty = new PropertyObject(entityKey = propertyKey);
@@ -254,269 +254,21 @@ function getPropertyData()
                 // do something
 
                 totalProperties = response.data;
-                $("#property").empty();
-
-                var myProperty = "";
 
                 try{
-
                     totalProperties.forEach(function(property){
 
                         getPropertyTitleBar(property);
+                        getPropertyPricing(property);
                         getPropertyPictures(property);
-
-                        myProperty += "<!-- Property Description -->" + 
-                                    "<div class='property-description'>" + 
-                                        "<!-- Main Features -->" + 
-                                        "<ul class='property-main-features'>" +
-                                            "<li>Area <span>" + property.area + " m^2</span></li>" + 
-                                            "<li>Rooms <span>" + property.rooms + "</span></li>" + 
-                                            // "<li>Bedrooms <span>2</span></li>" + 
-                                            "<li>Bathrooms <span>" + property.bathrooms + "</span></li>" +
-                                        "</ul>" +
-
-                                        "<!-- Description -->" +
-                                        "<h3 class='desc-headline'>Description</h3>" + 
-                                        "<div class='show-more'>" +
-                                            "<p>" + property.description + " <br><br><br><br> </p>" +
-                                            "<a href='#' class='show-more-button'>Show More <i class='fa fa-angle-down'></i></a>" +
-                                        "</div>" + 
-
-                                        "<!-- Details -->" +
-                                        "<h3 class='desc-headline'>Details</h3>" + 
-                                        "<ul class='property-features margin-top-0'>" + 
-                                            "<li>Built in: <span>" + property.yearBuilt + "</span></li>" +
-                                            "<li>Parking: <span>Attached Garage</span></li>" +
-                                            "<li>Cooling: <span>Central Cooling</span></li>" +
-                                            "<li>Heating: <span>Forced Air, Gas</span></li>" +
-                                            "<li>Sewer: <span>Public/City</span></li>" +
-                                            "<li>Water: <span>City</span></li>" +
-                                            "<li>Exercise Room: <span>Yes</span></li>" +
-                                            "<li>Storage Room: <span>Yes</span></li>" +
-                                        "</ul>" +
-
-                                        // "<!-- Features -->" +
-                                        // "<h3 class='desc-headline'>Features</h3>" +
-                                        // "<ul class='property-features checkboxes margin-top-0'>" +
-                                        //     "<li>Air Conditioning</li>" +
-                                        //     "<li>Swimming Pool</li>" +
-                                        //     "<li>Central Heating</li>" +
-                                        //     "<li>Laundry Room</li>" +
-                                        //     "<li>Gym</li>" +
-                                        //     "<li>Alarm</li>" +
-                                        //     "<li>token Covering</li>" +
-                                        //     "<li>Internet</li>" +
-                                        // "</ul>" +
-
-                                        // "<!-- Floorplans -->" +
-                                        // "<h3 class='desc-headline no-border'>Floorplans</h3>" +
-                                        // "<!-- Accordion -->" +
-                                        // "<div class='style-1 fp-accordion'>" +
-                                        //     "<div class='accordion'>" +
-                    
-                                        //         "<h3>First Floor <span>460 sq ft</span> <i class='fa fa-angle-down'></i> </h3>" +
-                                        //         "<div>" +
-                                        //             "<a class='floor-pic mfp-image' href='https://i.imgur.com/kChy7IU.jpg'>" +
-                                        //                 "<img src='https://i.imgur.com/kChy7IU.jpg' alt=''>" +
-                                        //             "</a>" +
-                                        //             "<p>Mauris mauris ante, blandit et, ultrices a, susceros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate aliquam egestas litora torquent conubia.</p>" +
-                                        //         "</div>" +
-                        
-                                        //         "<h3>Second Floor <span>440 sq ft</span> <i class='fa fa-angle-down'></i></h3>" +
-                                        //         "<div>" +
-                                        //             "<a class='floor-pic mfp-image' href='https://i.imgur.com/l2VNlwu.jpg'>" +
-                                        //                 "<img src='https://i.imgur.com/l2VNlwu.jpg' alt=''>" +
-                                        //             "</a>" +
-                                        //             "<p>Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet purus vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor velit, faucibus interdum tellus libero ac justo. Vivamus non quam. Nullam laoreet, velit ut taciti sociosqu condimentum feugiat.</p>" +
-                                        //         "</div>" +
-                        
-                                        //         "<h3>Garage <span>140 sq ft</span> <i class='fa fa-angle-down'></i></h3>" +
-                                        //         "<div>" +
-                                        //             "<a class='floor-pic mfp-image' href='https://i.imgur.com/0zJYERy.jpg'>" +
-                                        //                 "<img src='https://i.imgur.com/0zJYERy.jpg' alt=''>" +
-                                        //             "</a>" +
-                                        //         "</div>" +
-                        
-                                        //     "</div>" +
-                                        // " </div>" +
-                            
-                                        "<!-- Video -->" +
-                                        "<h3 class='desc-headline no-border'>Video</h3>" +
-                                        "<div class='responsive-iframe'>" +
-                                            "<iframe width='560' height='315' src='https://www.youtube-nocookie.com/embed/UPBJKppEXoQ?rel=0&amp;showinfo=0' frameborder='0' allowfullscreen></iframe>" +
-                                        "</div>" +
-                            
-                                        "<!-- Location -->" +
-                                        "<h3 class='desc-headline no-border' id='location'>Location</h3>" +
-                                        "<div id='propertyMap-container'>" +
-                                            "<div id='propertyMap' data-latitude='40.7427837' data-longitude='-73.11445617675781'></div>" +
-                                            "<a href='#' id='streetView'>Street View</a>" +
-                                        "</div>" +
-
-                                        "<!-- Similar Listings Container -->" +
-                                        "<h3 class='desc-headline no-border margin-bottom-35 margin-top-60'>Similar Properties</h3>" +
-
-                                        "<!-- Layout Switcher -->" +
-                        
-                                        "<div class='layout-switcher hidden'><a href='#' class='list'><i class='fa fa-th-list'></i></a></div>" +
-                                        "<div class='listings-container list-layout'>" +
-                        
-                                            "<!-- Listing Item -->" +
-                                            "<div class='listing-item'>" +
-                        
-                                                "<a href='#' class='listing-img-container'>" +
-                        
-                                                    "<div class='listing-badges'>" +
-                                                        "<span>For Rent</span>" +
-                                                    "</div>" +
-                        
-                                                    "<div class='listing-img-content'>" +
-                                                        "<span class='listing-price'>$1700 <i>monthly</i></span>" +
-                                                        "<span class='like-icon'></span>" +
-                                                    "</div>" +
-                        
-                                                    "<img src='images/listing-03.jpg' alt=''>" +
-                        
-                                                "</a>" +
-                                                
-                                                "<div class='listing-content'>" +
-                        
-                                                    "<div class='listing-title'>" +
-                                                        "<h4><a href='#'>Meridian Villas</a></h4>" +
-                                                        "<a href='https://maps.google.com/maps?q=221B+Baker+Street,+London,+United+Kingdom&hl=en&t=v&hnear=221B+Baker+St,+London+NW1+6XE,+United+Kingdom' class='listing-address popup-gmaps'>" +
-                                                            "<i class='fa fa-map-marker'></i>" +
-                                                            "778 Country St. Panama City, FL" +
-                                                        "</a>" +
-                        
-                                                        "<a href='#' class='details button border'>Details</a>" +
-                                                    "</div>" +
-                        
-                                                    "<ul class='listing-details'>" +
-                                                        "<li>1450 sq ft</li>" +
-                                                        "<li>1 Bedroom</li>" +
-                                                        "<li>2 Rooms</li>" +
-                                                        "<li>2 Rooms</li>" +
-                                                    "</ul>" +
-                        
-                                                    "<div class='listing-footer'>" +
-                                                        "<a href='#'><i class='fa fa-user'></i> Chester Miller</a>" +
-                                                        "<span><i class='fa fa-calendar-o'></i> 4 days ago</span>" +
-                                                    "</div>" +
-                        
-                                                "</div>" +
-                                                "<!-- Listing Item / End -->" +
-                        
-                                            "</div>" +
-                                            "<!-- Listing Item / End -->" +
-                        
-                        
-                                            "<!-- Listing Item -->" +
-                                            "<div class='listing-item'>" +
-                        
-                                                "<a href='#' class='listing-img-container'>" +
-                        
-                                                    "<div class='listing-badges'>" +
-                                                        "<span>For Sale</span>" +
-                                                    "</div>" +
-                        
-                                                    "<div class='listing-img-content'>" +
-                                                        "<span class='listing-price'>$420,000 <i>$770 / sq ft</i></span>" +
-                                                        "<span class='like-icon'></span>" +
-                                                    "</div>" +
-                        
-                                                    "<div><img src='images/listing-04.jpg' alt=''></div>" +
-                        
-                                                "</a>" +
-                                                
-                                                "<div class='listing-content'>" +
-                        
-                                                    "<div class='listing-title'>" +
-                                                        "<h4><a href='#'>Selway Apartments</a></h4>" +
-                                                        "<a href='https://maps.google.com/maps?q=221B+Baker+Street,+London,+United+Kingdom&hl=en&t=v&hnear=221B+Baker+St,+London+NW1+6XE,+United+Kingdom' class='listing-address popup-gmaps'>" +
-                                                            "<i class='fa fa-map-marker'></i>" +
-                                                            "33 William St. Northbrook, IL" +
-                                                        "</a>" +
-                        
-                                                        "<a href='#' class='details button border'>Details</a>" +
-                                                    "</div>" +
-                        
-                                                    "<ul class='listing-details'>" +
-                                                        "<li>540 sq ft</li>" +
-                                                        "<li>1 Bedroom</li>" +
-                                                        "<li>3 Rooms</li>" +
-                                                        "<li>2 Bathroom</li>" +
-                                                    "</ul>" +
-                        
-                                                    "<div class='listing-footer'>" +
-                                                        "<a href='#'><i class='fa fa-user'></i> Kristen Berry</a>" +
-                                                        "<span><i class='fa fa-calendar-o'></i> 3 days ago</span>" +
-                                                    "</div>" +
-                        
-                                                "</div>" +
-                                                "<!-- Listing Item / End -->" +
-                        
-                                            "</div>" +
-                                            "<!-- Listing Item / End -->" +
-                        
-                                            "<!-- Listing Item -->" +
-                                            "<div class='listing-item'>" +
-                        
-                                                "<a href='#' class='listing-img-container'>" +
-                                                    "<div class='listing-badges'>" +
-                                                        "<span>For Sale</span>" +
-                                                    "</div>" +
-                        
-                                                    "<div class='listing-img-content'>" +
-                                                        "<span class='listing-price'>$535,000 <i>$640 / sq ft</i></span>" +
-                                                        "<span class='like-icon'></span>" +
-                                                    "</div>" +
-                        
-                                                    "<img src='images/listing-05.jpg' alt=''>" +
-                                                "</a>" +
-                                                
-                                                "<div class='listing-content'>" +
-                        
-                                                    "<div class='listing-title'>" +
-                                                        "<h4><a href='#'>Oak Tree Villas</a></h4>" +
-                                                        "<a href='https://maps.google.com/maps?q=221B+Baker+Street,+London,+United+Kingdom&hl=en&t=v&hnear=221B+Baker+St,+London+NW1+6XE,+United+Kingdom' class='listing-address popup-gmaps'>" +
-                                                            "<i class='fa fa-map-marker'></i>" +
-                                                            "71 Lower River Dr. Bronx, NY" +
-                                                        "</a>" +
-                        
-                                                        "<a href='' class='details button border'>Details</a>" +
-                                                    "</div>" +
-                        
-                                                    "<ul class='listing-details'>" +
-                                                        "<li>350 sq ft</li>" +
-                                                        "<li>1 Bedroom</li>" +
-                                                        "<li>2 Rooms</li>" +
-                                                        "<li>1 Bathroom</li>" +
-                                                    "</ul>" +
-                        
-                                                    "<div class='listing-footer'>" +
-                                                        "<a href='#'><i class='fa fa-user'></i> Mabel Gagnon</a>" +
-                                                        "<span><i class='fa fa-calendar-o'></i> 4 days ago</span>" +
-                                                    "</div>" +
-                        
-                                                "</div>" +
-                                                "<!-- Listing Item / End -->" +
-                        
-                                            "</div>" +
-                                            "<!-- Listing Item / End -->" +
-                        
-                                        "</div>" +
-                                        "<!-- Similar Listings Container / End -->" +
-
-                                    "</div>" +
-                                    "<!-- Property Description / End -->";
+                        getPropertyMap(property);
+                        document.getElementById("yearBuilt").innerHTML += "Year Built: <span>" + property.yearBuilt + "</span>";
                     });
                 }
                 catch(error){
                     
                     alert(error);
                 }
-
-                $("#property").append(myProperty);
             },
        
             error: function (error) {            
@@ -533,57 +285,83 @@ function getPropertyData()
 
 function getPropertyTitleBar(property){
 
-    $("#titlebar").empty();
+    var title = "<h2>";
+    title += property.title;
+    title += "<span class='property-badge'>";
+    title += property.status;
+    title += "</span></h2>";
 
-    var titleBar = "";
-    titleBar += "<div class='container'>" + 
-                    "<div class='row'>" + 
-                        "<div class='col-md-12'>" + 
-                            
-                            "<a href='listings-list-with-sidebar.html' class='back-to-listings'></a>" + 
-                            "<div class='property-title'>" + 
-                                "<h2>" + property.title + "<span class='property-badge'>" + property.status + "</span></h2>" + 
-                                "<span>" + 
-                                    "<a href='#location' class='listing-address'>" + 
-                                        "<i class='fa fa-map-marker'></i>" + 
-                                        property.address + 
-                                    "</a>" + 
-                                "</span>" + 
-                            "</div>" + 
+    document.getElementById("propertyTitle").innerHTML += title;
 
-                            "<div class='property-pricing'>" + 
-                                "<div class='property-price'>$" + property.price + "</div>" + 
-                                "<div class='sub-price'>$" + parseFloat(property.price/property.area).toFixed(2) + " / m^2 </div>" + 
-                            "</div>" + 
-                        "</div>" + 
-                    "</div>" + 
-                "</div>";
+    var location = "";
+    location += "<span>";
+    location += "<a href='#location' class='listing-address'>";
+    location += "<i class='fa fa-map-marker'></i>";
+    location += property.address + ", " + property.state;
+    location += "</a>";
+    location += "</span>";
 
-    $("#titlebar").append(titleBar);
+    document.getElementById("propertyTitle").innerHTML += location;
+}
+
+function getPropertyPricing(property){
+
+    document.getElementById("propertyPrice").innerHTML = "$" + property.price;
+    document.getElementById("propertyPricePerUnitArea").innerHTML = "$" + parseFloat(property.price/property.area).toFixed(2) + " / sq. meter";
 }
 
 function getPropertyPictures(property){
+   
+    $("#propertyImg1").attr('href', property.photourl);
+    $("#propertyImg1").attr('data-background-image', property.photourl);
+    var currStyle1 = $("#propertyImg1").attr('style');
+    $("#propertyImg1").attr('style', replaceURLWithThePropertyPicture(currStyle1, property.photourl));
+    document.getElementById("propertyImgSlider1").innerHTML = "<img src='" + property.photourl + "' alt=''>"; 
 
-    $("#propertyPictures").empty();
-    var propertyPictures = "";
+    $("#propertyImg2").attr('href', property.photourl);
+    $("#propertyImg2").attr('data-background-image', property.photourl);
+    var currStyle2 = $("#propertyImg2").attr('style');
+    $("#propertyImg2").attr('style', replaceURLWithThePropertyPicture(currStyle2, property.photourl));
+    document.getElementById("propertyImgSlider2").innerHTML = "<img src='" + property.photourl + "' alt=''>";   
 
-    propertyPictures += "<div class='row margin-bottom-50'>" + 
-                            "<div class='col-md-12'>" + 
-                            
-                                "<!-- Slider -->" + 
-                                "<div class='property-slider default'>" + 
-                                    "<a href='" + property.photourl + "' data-background-image='" + property.photourl + "' class='item mfp-gallery'></a>" +
-                                "</div>" + 
+    $("#propertyImg3").attr('href', property.photourl);
+    $("#propertyImg3").attr('data-background-image', property.photourl);
+    var currStyle3 = $("#propertyImg3").attr('style');
+    $("#propertyImg3").attr('style', replaceURLWithThePropertyPicture(currStyle3, property.photourl));
+    document.getElementById("propertyImgSlider3").innerHTML = "<img src='" + property.photourl + "' alt=''>";   
 
-                                "<!-- Slider Thumbs -->" + 
-                                "<div class='property-slider-nav'>" + 
-                                    "<div class='item'><img src='" + property.photourl + "' alt=''></div>" +
-                                "</div>" + 
+    $("#propertyImg4").attr('href', property.photourl);
+    $("#propertyImg4").attr('data-background-image', property.photourl);
+    var currStyle4 = $("#propertyImg4").attr('style');
+    $("#propertyImg4").attr('style', replaceURLWithThePropertyPicture(currStyle4, property.photourl));
+    document.getElementById("propertyImgSlider4").innerHTML = "<img src='" + property.photourl + "' alt=''>";
 
-                            "</div>" + 
-                        "</div>";
+    $("#propertyImg5").attr('href', property.photourl);
+    $("#propertyImg5").attr('data-background-image', property.photourl);
+    var currStyle5 = $("#propertyImg5").attr('style');
+    $("#propertyImg5").attr('style', replaceURLWithThePropertyPicture(currStyle5, property.photourl));
+    document.getElementById("propertyImgSlider5").innerHTML = "<img src='" + property.photourl + "' alt=''>";
 
-    $("#propertyPictures").append(propertyPictures);
+    $("#propertyImg6").attr('href', property.photourl);
+    $("#propertyImg6").attr('data-background-image', property.photourl);
+    var currStyle6 = $("#propertyImg6").attr('style');
+    $("#propertyImg6").attr('style', replaceURLWithThePropertyPicture(currStyle6, property.photourl));
+    document.getElementById("propertyImgSlider6").innerHTML = "<img src='" + property.photourl + "' alt=''>";
+}
+
+function replaceURLWithThePropertyPicture(currStyle, propertyPhotoURL){
+
+    /*Replaces the substring between parentheses with the following string:
+
+        "(" + propertyPhotoURL + ")"
+    */
+    return currStyle.replace(/\(.*?[^\)]\)/g, "(" + propertyPhotoURL + ")");
+}
+
+function getPropertyMap(property){
+
+    $("#propertyMap").attr("data-latitude", "19.0");
+    $("#propertyMap").attr("data-longitude", "-98.0");
 }
 
 function getMyProperties()
