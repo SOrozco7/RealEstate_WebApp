@@ -235,7 +235,7 @@ function deleteProperty(propertyKey)
     }
 }
 
-function getProperty()
+function getPropertyData()
 {
     try
     {
@@ -340,11 +340,11 @@ function getProperty()
                                         //     "</div>" +
                                         // " </div>" +
                             
-                                        // "<!-- Video -->" +
-                                        // "<h3 class='desc-headline no-border'>Video</h3>" +
-                                        // "<div class='responsive-iframe'>" +
-                                        //     "<iframe width='560' height='315' src='https://www.youtube-nocookie.com/embed/UPBJKppEXoQ?rel=0&amp;showinfo=0' frameborder='0' allowfullscreen></iframe>" +
-                                        // "</div>" +
+                                        "<!-- Video -->" +
+                                        "<h3 class='desc-headline no-border'>Video</h3>" +
+                                        "<div class='responsive-iframe'>" +
+                                            "<iframe width='560' height='315' src='https://www.youtube-nocookie.com/embed/UPBJKppEXoQ?rel=0&amp;showinfo=0' frameborder='0' allowfullscreen></iframe>" +
+                                        "</div>" +
                             
                                         "<!-- Location -->" +
                                         "<h3 class='desc-headline no-border' id='location'>Location</h3>" +
@@ -542,7 +542,7 @@ function getPropertyTitleBar(property){
                             
                             "<a href='listings-list-with-sidebar.html' class='back-to-listings'></a>" + 
                             "<div class='property-title'>" + 
-                                "<h2>" + property.title + "<span class='property-badge'>For Sale</span></h2>" + 
+                                "<h2>" + property.title + "<span class='property-badge'>" + property.status + "</span></h2>" + 
                                 "<span>" + 
                                     "<a href='#location' class='listing-address'>" + 
                                         "<i class='fa fa-map-marker'></i>" + 
@@ -577,7 +577,7 @@ function getPropertyPictures(property){
 
                                 "<!-- Slider Thumbs -->" + 
                                 "<div class='property-slider-nav'>" + 
-                                    "<div class='item'><img src='" + property.photourl + "' alt=''></div>" + 
+                                    "<div class='item'><img src='" + property.photourl + "' alt=''></div>" +
                                 "</div>" + 
 
                             "</div>" + 

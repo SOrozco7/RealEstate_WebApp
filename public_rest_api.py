@@ -237,6 +237,21 @@ class GetPropertyHandler(webapp2.RequestHandler):
         template = jinja_env.get_template(template_name)
         return template.render(context) 
 
+class GetPropertyCopyHandler(webapp2.RequestHandler):
+
+    def get(self):
+
+        template_context = {}
+        self.response.out.write(
+            self._render_template('single-property-page-1-copy.html', template_context))
+
+    def _render_template(self, template_name, context=None):
+        if context is None:
+            context = {}
+
+        template = jinja_env.get_template(template_name)
+        return template.render(context) 
+
 class ProfileHandler(webapp2.RequestHandler):
 
    def get(self):
@@ -267,6 +282,7 @@ app = webapp2.WSGIApplication([('/', MainHandler),
                                ('/editProperty', EditPropertyHandler),
                                ('/getMyProperties', GetMyPropertiesHandler),
                                ('/getProperty', GetPropertyHandler),
+                               ('/getPropertyCopy', GetPropertyCopyHandler),
                                ################################
                                ('/myProfile', ProfileHandler)
                                ], debug = True)
