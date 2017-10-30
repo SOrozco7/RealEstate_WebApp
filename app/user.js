@@ -44,10 +44,8 @@ function getUserName()
                 
                 totalUsers.forEach(function(user){
 
-                    var email = user.email;
-                    var words = email.split("@");
-                    var userName = words[0];
-                    $("#userName").append(userName);
+                    var name = user.name;
+                    $("#userName").append(name);
                 });
             },
        

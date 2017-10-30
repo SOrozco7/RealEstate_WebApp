@@ -91,7 +91,9 @@ class Property(CustomBaseModel):
                               'yearBuilt', 
                               'area', 
                               'photourl',
-                              'description')
+                              'description',
+                              'latitude',
+                              'longitude')
 
     usuario_key = ndb.KeyProperty(kind=Usuarios)
     title = ndb.StringProperty()
@@ -109,6 +111,8 @@ class Property(CustomBaseModel):
     area = ndb.StringProperty()
     photourl = ndb.StringProperty()
     description = ndb.StringProperty()
+    latitude = ndb.StringProperty()
+    longitude = ndb.StringProperty()
 
     def property_m(self, data, usuario_key):
 

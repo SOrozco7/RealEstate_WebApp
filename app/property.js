@@ -12,7 +12,9 @@ function PropertyObject(entityKey,
                         myYearBuilt,
                         myArea,
                         myPhotoUrl,
-                        myDescription) {
+                        myDescription,
+                        myLatitude,
+                        myLongitude) {
     
     this.entityKey = entityKey;
     this.title = myTitle;
@@ -29,6 +31,8 @@ function PropertyObject(entityKey,
     this.area = myArea;
     this.description = myDescription;
     this.photourl = myPhotoUrl;
+    this.latitude = myLatitude;
+    this.longitude = myLongitude;
     this.token = sessionStorage.token;
 
     this.toJsonString = function () { return JSON.stringify(this); };
@@ -44,8 +48,6 @@ function addProperty()
 {
 	try
     {
-        alert("token : " + newFunction());
-        
         var myData = new PropertyObject(entityKey = "",
                                         title = $("#title").val(),
                                         status = $("#status").val(),
@@ -60,7 +62,14 @@ function addProperty()
                                         yearBuilt = $("#yearBuilt").val(),
                                         area = $("#area").val(),
                                         photourl = sessionStorage.urlImage,
-                                        description = $("#description").val());
+                                        description = $("#description").val(),
+                                        latitude = null,
+                                        longitude = null);
+
+        var address = $("#address").val();
+        var city = $("#city").val();
+        var state = $("#state").val();
+        var zipcode = $("#zipcode").val();
         
         alert(myData.toJsonString());
 
@@ -75,6 +84,7 @@ function addProperty()
             success: function (response) {
                     // do something
                     alert (response.code + " " + response.message);
+                    getPropertyCoords(address, city, state, zipcode);
                     window.location = "/myProperties";
             },
         
@@ -97,7 +107,7 @@ function loadPropertyInformation()
         var urlVariables = getURLVariables();
         propertyKey = urlVariables.propertyID;
         var myProperty = new PropertyObject(entityKey = propertyKey);
-        alert(myProperty.toJsonString());
+        // alert(myProperty.toJsonString());
 
         jQuery.ajax({
             type: "POST",
@@ -170,7 +180,14 @@ function editProperty()
                                         yearBuilt = $("#yearBuilt").val(),
                                         area = $("#area").val(),
                                         photourl = sessionStorage.urlImage,
-                                        description = $("#description").val());
+                                        description = $("#description").val(),
+                                        latitude = null,
+                                        longitude = null);
+
+        var address = $("#address").val();
+        var city = $("#city").val();
+        var state = $("#state").val();
+        var zipcode = $("#zipcode").val();
         
         alert(myData.toJsonString());
 
@@ -185,7 +202,8 @@ function editProperty()
             success: function (response) {
                     // do something
                     alert (response.code + " " + response.message);
-                    window.location = "/myProperties";
+                    getPropertyCoords(address, city, state, zipcode);
+                    // window.location = "/myProperties";
             },
         
             error: function (error) {            
@@ -495,4 +513,97 @@ function getURLVariables() {
     });
  
     return vars;
+}
+
+function getPropertyCoords(address, city, state, zipcode){
+
+    var totalAddress = address + "+" + city + "+" + state + "+" + zipcode;
+    alert("getPropertyCoords !!!");
+    
+    jQuery.support.cors = true;
+    try
+    {
+        $.ajax({
+            url: "https://maps.google.com/maps/api/geocode/json?address=" + totalAddress + "&key=" + "AIzaSyDr8Em-NcWeTtj5gKZu_UPeOunvO_9fuxU",
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            // data: form_data,
+            type: 'post',
+            crossDomain: true,
+            success: function(response){
+                
+                var googleMapsResponse = JSON.parse(response);
+                var propertyLatitude = googleMapsResponse.results["0"].geometry.location.lat;
+                var propertyLongitude = googleMapsResponse.results["0"].geometry.location.lng;
+
+                alert("getPropertyCoords -> propertyLatitude = " + propertyLatitude + "; propertyLongitude = " + propertyLongitude);
+                assignPropertyCoords(propertyLatitude, propertyLongitude);
+            },
+
+            error: function (error) {            
+                // error handler
+                alert("WTF!!?? -> error :" + error.message);
+            }
+        });
+    }
+    catch(e)
+    {
+        alert("error : " +  e);
+    }
+}
+
+function assignPropertyCoords(propertyLatitude, propertyLongitude){
+    
+    try
+    {
+        alert("propertyLatitude = " + propertyLatitude + "; propertyLongitude = " + propertyLongitude);
+        var urlVariables = getURLVariables();
+        propertyKey = urlVariables.propertyID;
+        alert("token : " + sessionStorage.token);
+        
+        var myData = new PropertyObject(entityKey = propertyKey,
+                                        title = $("#title").val(),
+                                        status = $("#status").val(),
+                                        price = $("#price").val(),
+                                        address = $("#address").val(),
+                                        city = $("#city").val(),
+                                        state = $("#state").val(),
+                                        zipcode = $("#zipcode").val(),
+                                        rooms = $("#rooms").val(),
+                                        bathrooms = $("#bathrooms").val(),
+                                        propertyType = $("#propertyType").val(),
+                                        yearBuilt = $("#yearBuilt").val(),
+                                        area = $("#area").val(),
+                                        photourl = sessionStorage.urlImage,
+                                        description = $("#description").val(),
+                                        latitude = propertyLatitude,
+                                        longitude = propertyLongitude);
+        
+        alert(myData.toJsonString());
+
+        jQuery.ajax({
+
+            type: "POST",
+            url: "http://localhost:8080/_ah/api/property_api/v1/property/update",
+            // url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/update", //Use this when the website is live
+            data: myData.toJsonString(),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                    // do something
+                    alert (response.code + " " + response.message);
+            },
+        
+            error: function (error) {            
+                    // error handler
+                    alert("error :" + error.message)
+            }
+        });
+    }
+    catch(error)
+    {
+        alert(error);
+    }
 }

@@ -37,6 +37,7 @@ class UsuariosApi(remote.Service):
     lista.append(UserUpdate(token='', 
                             entityKey= user.entityKey,
                             #empresa_key = user.empresa_key.urlsafe(),
+                            name = user.name,
                             email = user.email))
     lstMessage.data = lista#ASIGNA a la salida la lista
     message = lstMessage
@@ -81,9 +82,10 @@ class UsuariosApi(remote.Service):
       
       for i in lstBd: # recorre
         lista.append(UserUpdate(token='',
-        entityKey=i.entityKey,
-        #empresa_key=user.empresa_key.urlsafe(),
-        email=i.email)) # agrega a la lista
+                                entityKey=i.entityKey,
+                                #empresa_key=user.empresa_key.urlsafe(),
+                                email=i.email,
+                                name = i.name)) # agrega a la lista
       
       lstMessage.data = lista # la manda al messa
       message = lstMessage #regresa
@@ -344,7 +346,9 @@ class PropertyApi(remote.Service):
                                    yearBuilt = propertyEntity.get().yearBuilt,
                                    area = propertyEntity.get().area,
                                    photourl = propertyEntity.get().photourl,
-                                   description = propertyEntity.get().description))
+                                   description = propertyEntity.get().description,
+                                   latitude = propertyEntity.get().latitude,
+                                   longitude = propertyEntity.get().longitude))
 
       listMessage.data = myList
       message = listMessage
@@ -458,7 +462,9 @@ class PropertyApi(remote.Service):
                                       yearBuilt = i.yearBuilt,
                                       area = i.area,
                                       photourl = i.photourl,
-                                      description = i.description))
+                                      description = i.description,
+                                      latitude = i.latitude,
+                                      longitude = i.longitude))
         
       lstMessage.data = lista #ASIGNA a la salida la lista
       message = lstMessage
