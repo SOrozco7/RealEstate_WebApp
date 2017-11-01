@@ -185,6 +185,8 @@ function editProperty()
         var state = $("#state").val();
         var zipcode = $("#zipcode").val();
         
+        alert(myData.toJsonString());
+        
         jQuery.ajax({
 
             type: "POST",

@@ -114,11 +114,12 @@ class Property(CustomBaseModel):
     latitude = ndb.StringProperty()
     longitude = ndb.StringProperty()
 
-    def property_m(self, data, usuario_key):
+    def property_m(self, data, usuario_key, photourl):
 
         myProperty = Property()
         myProperty.populate(data)
         myProperty.usuario_key = usuario_key
+        myProperty.photourl = photourl
         myProperty.put()
         return 0
 

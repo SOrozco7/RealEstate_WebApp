@@ -431,11 +431,13 @@ class PropertyApi(remote.Service):
       myProperty = Property()
       userKey = user.key
 
-      if request.photourl == None:
-        thisProperty = Property.query(id == request.entityKey).fetch()
-        request.photourl = thisProperty.photourl
+      newPhotoUrl = ""
 
-      if myProperty.property_m(request, userKey) == 0:
+      if request.photourl == None:
+        thisProperty = Property.query(Property.key == ndb.Key(urlsafe=request.entityKey)).fetch()
+        newPhotoUrl = thisProperty[0].photourl
+
+      if myProperty.property_m(request, userKey, newPhotoUrl) == 0:
         codigo = 1
       else:
         codigo = -3
