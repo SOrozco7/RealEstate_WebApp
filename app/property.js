@@ -83,7 +83,6 @@ function addProperty()
                     // do something
                     //alert (response.code + " " + response.message);
                     getPropertyCoords(address, city, state, zipcode);
-                    window.location = "/myProperties";
             },
         
             error: function (error) {            
@@ -198,7 +197,6 @@ function editProperty()
                     // do something
                     // alert (response.code + " " + response.message);
                     getPropertyCoords(address, city, state, zipcode);
-                    window.location = "/myProperties";
             },
         
             error: function (error) {            
@@ -375,6 +373,17 @@ function getPropertyMap(property){
 
     $("#propertyMap").attr("data-latitude", property.latitude);
     $("#propertyMap").attr("data-longitude", property.longitude);
+
+    var googleMapsKey = "AIzaSyDQ-EJE-bBjDQKTJdBlQyuQwNC_CUsIbFM";
+    var urlGoogleMaps = "https://www.google.com/maps/embed/v1/place?key=" 
+                        + googleMapsKey 
+                        + "&q=" + property.latitude + "," + property.longitude;
+
+    $("#newMap").attr('width', '600');
+    $("#newMap").attr('height', '450');
+    $("#newMap").attr('frameborder', '0');
+    $("#newMap").attr('style', 'border:0');
+    $("#newMap").attr('src', urlGoogleMaps);
 }
 
 function getMyProperties()
@@ -519,22 +528,23 @@ function getPropertyCoords(address, city, state, zipcode){
     try
     {
         $.ajax({
-            url: "https://maps.google.com/maps/api/geocode/json?address=" + totalAddress + "&key=" + "AIzaSyDr8Em-NcWeTtj5gKZu_UPeOunvO_9fuxU",
+            url: "https://maps.google.com/maps/api/geocode/json?address=" + totalAddress + "&key=" + "AIzaSyDQ-EJE-bBjDQKTJdBlQyuQwNC_CUsIbFM",
             dataType: 'text',
             cache: false,
             contentType: false,
             processData: false,
-            // data: form_data,
             type: 'post',
             crossDomain: true,
             success: function(response){
                 
                 var googleMapsResponse = JSON.parse(response);
+                alert(response);
                 var propertyLatitude = googleMapsResponse.results["0"].geometry.location.lat;
                 var propertyLongitude = googleMapsResponse.results["0"].geometry.location.lng;
 
                 alert("getPropertyCoords -> propertyLatitude = " + propertyLatitude + "; propertyLongitude = " + propertyLongitude);
                 assignPropertyCoords(propertyLatitude, propertyLongitude);
+                window.location = "/myProperties";
             },
 
             error: function (error) {            

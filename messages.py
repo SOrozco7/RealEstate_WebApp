@@ -118,3 +118,13 @@ class PropertyUpdate(messages.Message):
 class PropertyList(messages.Message):
     code = messages.IntegerField(1)
     data = messages.MessageField(PropertyUpdate, 2, repeated=True)
+
+###########################
+#### Message
+###########################
+class MessageInput(messages.Message):
+
+    propertyKey = messages.StringField(1, required=True)
+    email = messages.StringField(2)
+    phone = messages.StringField(3)
+    text = messages.StringField(4)

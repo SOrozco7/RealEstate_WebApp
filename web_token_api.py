@@ -12,12 +12,13 @@ from messages import EmailPasswordMessage, TokenMessage, CodeMessage, Token, Tok
 from messages import EmpresaInput, EmpresaUpdate, EmpresaList
 from messages import UserInput, UserUpdate, UserList
 from messages import PropertyInput, PropertyUpdate, PropertyList
+from messages import MessageInput
 
 from endpoints_proto_datastore.ndb import EndpointsModel
 
 import models
 from models import validarEmail
-from models import Empresa, Usuarios, Property
+from models import Empresa, Usuarios, Property, Message
 
 ###############
 # Usuarios API
@@ -489,4 +490,35 @@ class PropertyApi(remote.Service):
     
     return message
 
-application = endpoints.api_server([UsuariosApi, EmpresasApi, PropertyApi], restricted=False)
+###########################
+#### Message API
+###########################
+
+## Google Cloud Endpoint
+@endpoints.api(name='message_api', version='v1', description='message REST API')
+class MessageApi(remote.Service):
+
+  # Insert a message
+  @endpoints.method(MessageInput, CodeMessage, path = 'message/insert', http_method='POST', name='message.insert') 
+  def message_add(cls, request):
+    try:
+
+      myMessage = Message()
+      
+      if myMessage.message_m(request, ndb.Key(urlsafe=request.propertyKey)) == 0: 
+        codigo = 1
+      
+      else:
+        codigo = -3
+      
+      message = CodeMessage(code = codigo, message = 'The message was succesfully inserted')
+
+    except jwt.DecodeError:
+      message = CodeMessage(code = -2, message = 'Invalid token. The message was not inserted.')
+    
+    except jwt.ExpiredSignatureError:
+      message = CodeMessage(code = -1, message = 'Token expired. The message was not inserted.')
+    
+    return message
+
+application = endpoints.api_server([UsuariosApi, EmpresasApi, PropertyApi, MessageApi], restricted=False)

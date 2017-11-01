@@ -122,6 +122,24 @@ class Property(CustomBaseModel):
         myProperty.put()
         return 0
 
+###########################
+#### Message
+###########################
+class Message(CustomBaseModel):
+    _message_fields_schema = ('entityKey', 'email', 'phone', 'text')
+    property_key = ndb.KeyProperty(kind=Property)
+    email = ndb.StringProperty()
+    phone = ndb.StringProperty()
+    text = ndb.StringProperty()
+
+       ###  Message  ####
+    def message_m(self, data, property_key):
+        myMessage = Message() 
+        myMessage.populate(data) 
+        myMessage.property_key = property_key
+        myMessage.put() 
+        return 0
+
 #### create demo
 
 def validarEmail(email):

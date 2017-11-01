@@ -235,7 +235,10 @@
 
           if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition(function (position) {
-                  var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+                  alert("position.coords.latitude = " + position.coords.latitude + "; position.coords.latitude = " + position.coords.latitude);
+
+                  var pos = new google.maps.LatLng(position.coords.latitude, position.coords.latitude);
                   map.setCenter(pos);
                   map.setZoom(12);
               });
