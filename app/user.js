@@ -51,7 +51,8 @@ function getUserName()
        
             error: function (error) {            
                 // error handler
-                alert("error :" + error.message)
+                alert("!!!! WTF");
+                alert("error :" + error.message);
             }
         });
    }

@@ -70,8 +70,6 @@ function addProperty()
         var city = $("#city").val();
         var state = $("#state").val();
         var zipcode = $("#zipcode").val();
-        
-        alert(myData.toJsonString());
 
         jQuery.ajax({
 
@@ -83,7 +81,7 @@ function addProperty()
             dataType: "json",
             success: function (response) {
                     // do something
-                    alert (response.code + " " + response.message);
+                    //alert (response.code + " " + response.message);
                     getPropertyCoords(address, city, state, zipcode);
                     window.location = "/myProperties";
             },
@@ -164,7 +162,6 @@ function editProperty()
     {
         var urlVariables = getURLVariables();
         propertyKey = urlVariables.propertyID;
-        alert("token : " + sessionStorage.token);
         
         var myData = new PropertyObject(entityKey = propertyKey,
                                         title = $("#title").val(),
@@ -189,8 +186,6 @@ function editProperty()
         var state = $("#state").val();
         var zipcode = $("#zipcode").val();
         
-        alert(myData.toJsonString());
-
         jQuery.ajax({
 
             type: "POST",
@@ -201,9 +196,9 @@ function editProperty()
             dataType: "json",
             success: function (response) {
                     // do something
-                    alert (response.code + " " + response.message);
+                    // alert (response.code + " " + response.message);
                     getPropertyCoords(address, city, state, zipcode);
-                    // window.location = "/myProperties";
+                    window.location = "/myProperties";
             },
         
             error: function (error) {            
@@ -223,7 +218,7 @@ function deleteProperty(propertyKey)
 	try
     {   
         var myProperty = new PropertyObject(entityKey = propertyKey);
-        alert("myProperty.toJsonString() = " + myProperty.toJsonString());
+        // alert("myProperty.toJsonString() = " + myProperty.toJsonString());
 
         jQuery.support.cors = true;
 
@@ -237,7 +232,7 @@ function deleteProperty(propertyKey)
             dataType: "json",
             success: function (response) {
                 // do something
-                alert (response.code + " " + response.message);
+                // alert (response.code + " " + response.message);
                 window.location = "/myProperties";
             },
         
@@ -378,15 +373,15 @@ function replaceURLWithThePropertyPicture(currStyle, propertyPhotoURL){
 
 function getPropertyMap(property){
 
-    $("#propertyMap").attr("data-latitude", "19.0");
-    $("#propertyMap").attr("data-longitude", "-98.0");
+    $("#propertyMap").attr("data-latitude", property.latitude);
+    $("#propertyMap").attr("data-longitude", property.longitude);
 }
 
 function getMyProperties()
 {
     try
     {
-        //alert("token : " + sessionStorage.token);
+        alert("token : " + sessionStorage.token);
         var myData = new TokenObject();
         // alert(myData.toJsonString());
 
@@ -558,10 +553,8 @@ function assignPropertyCoords(propertyLatitude, propertyLongitude){
     
     try
     {
-        alert("propertyLatitude = " + propertyLatitude + "; propertyLongitude = " + propertyLongitude);
         var urlVariables = getURLVariables();
         propertyKey = urlVariables.propertyID;
-        alert("token : " + sessionStorage.token);
         
         var myData = new PropertyObject(entityKey = propertyKey,
                                         title = $("#title").val(),
@@ -578,8 +571,8 @@ function assignPropertyCoords(propertyLatitude, propertyLongitude){
                                         area = $("#area").val(),
                                         photourl = sessionStorage.urlImage,
                                         description = $("#description").val(),
-                                        latitude = propertyLatitude,
-                                        longitude = propertyLongitude);
+                                        latitude = propertyLatitude.toString(),
+                                        longitude = propertyLongitude.toString());
         
         alert(myData.toJsonString());
 

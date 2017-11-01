@@ -32,6 +32,7 @@
 
 <script src="app/property.js"></script>
 <script src="app/user.js"></script>
+<script src="app/login.js"></script>
 
 <!-- Wrapper -->
 <div id="wrapper">
@@ -295,7 +296,8 @@
 							<li><a href="/myProfile"><i class="sl sl-icon-user"></i> My Profile</a></li>
 							<li><a href="my-bookmarks.html"><i class="sl sl-icon-star"></i> Bookmarks</a></li>
 							<li><a href="/myProperties"><i class="sl sl-icon-docs"></i> My Properties</a></li>
-							<li><a href="/"><i class="sl sl-icon-power"></i> Log Out</a></li>
+							<!-- <li><a href="/" onclick="logout()"><i class="sl sl-icon-power"></i> Log Out</a></li> -->
+							<button class="button border margin-top-10" onclick="logout()"> Log Out </button> 
 						</ul>
 					</div>
 
@@ -364,7 +366,8 @@
 
 					<ul class="my-account-nav">
 						<li><a href="change-password.html"><i class="sl sl-icon-lock"></i> Change Password</a></li>
-						<li><a href="#"><i class="sl sl-icon-power"></i> Log Out</a></li>
+						<li><a href="#" onclick="logout()"><i class="sl sl-icon-power"></i> Log Out</a></li>
+						<!-- <button class="button border margin-top-10" onclick="logout()"> Log Out </button>  -->
 					</ul>
 
 				</div>

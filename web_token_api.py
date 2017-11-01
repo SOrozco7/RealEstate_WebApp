@@ -163,6 +163,18 @@ class UsuariosApi(remote.Service):
    message = TokenMessage(token=None, message='Wrong username or password', code=-1)
   return message
 
+##login##
+
+ @endpoints.method(Token, TokenMessage, path='user/logout', http_method='POST', name='user.logout')
+ def user_logout(cls, request):
+  try:
+
+   token = jwt.encode({'user_id': None, 'exp': time.time() + 43200}, 'secret') #crea el token
+   message = TokenMessage(token=None, message=None, code=1) # regresa token
+  except NotFoundException:
+   message = TokenMessage(token=None, message='Wrong username or password', code=-1)
+  return message
+
 ##update##
 # update
 #                   ENTRADA    SALIDA        RUTA              siempre es POST     NOMBRE

@@ -5,6 +5,12 @@ function LoginObject(myEmail, myPasswd) {
     this.toJsonString = function () { return JSON.stringify(this); };
 };
 
+function TokenObject() {
+    
+    this.token = sessionStorage.token;
+    this.toJsonString = function () { return JSON.stringify(this); };
+};
+
 function loginDemo()
 {
 	//alert("testing...")
@@ -29,6 +35,32 @@ function loginDemo()
         error: function (error) {            
               // error handler
               alert(error)
+        }
+    });
+}
+
+function logout()
+{
+    var myData = new TokenObject();
+
+	jQuery.ajax({
+         
+        type: "POST",
+        url: "http://localhost:8080/_ah/api/usuarios_api/v1/user/logout",
+        // url: "https://realestate-salvador.appspot.com/_ah/api/usuarios_api/v1/user/logout",
+        data: myData.toJsonString(),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+              // do something
+              sessionStorage.token = response.token;
+              window.location = "/";
+              sessionStorage.token = null;
+        },
+     
+        error: function (error) {            
+              // error handler
+              alert(error);
         }
     });
 }
