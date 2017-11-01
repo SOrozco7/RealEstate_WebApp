@@ -431,6 +431,10 @@ class PropertyApi(remote.Service):
       myProperty = Property()
       userKey = user.key
 
+      if request.photourl == None:
+        thisProperty = Property.query(id == request.entityKey).fetch()
+        request.photourl = thisProperty.photourl
+
       if myProperty.property_m(request, userKey) == 0:
         codigo = 1
       else:

@@ -27,6 +27,7 @@ function loginDemo()
         dataType: "json",
         success: function (response) {
               // do something
+              sessionStorage.clear();
               sessionStorage.token = response.token;
               alert ("token generado: " + sessionStorage.token);
               window.location = "/";
@@ -53,6 +54,7 @@ function logout()
         dataType: "json",
         success: function (response) {
               // do something
+              sessionStorage.clear();
               sessionStorage.token = response.token;
               window.location = "/";
               sessionStorage.token = null;
