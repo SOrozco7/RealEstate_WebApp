@@ -33,7 +33,8 @@ function addMessage()
         jQuery.ajax({
 
             type: "POST",
-            url: "http://localhost:8080/_ah/api/message_api/v1/message/insert",
+            // url: "http://localhost:8080/_ah/api/message_api/v1/message/insert",
+            url: "./_ah/api/message_api/v1/message/insert",
             // url: "https://realestate-salvador.appspot.com/_ah/api/message_api/v1/message/insert", //Use this when the website is live
             data: myData.toJsonString(),
             contentType: "application/json; charset=utf-8",

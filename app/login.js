@@ -20,22 +20,23 @@ function loginDemo()
 	jQuery.ajax({
          
         type: "POST",
-        url: "http://localhost:8080/_ah/api/usuarios_api/v1/user/login",
+        // url: "http://localhost:8080/_ah/api/usuarios_api/v1/user/login",
+        url: "./_ah/api/usuarios_api/v1/user/login",
         // url: "https://realestate-salvador.appspot.com/_ah/api/usuarios_api/v1/user/login",
         data: myData.toJsonString(),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (response) {
-              // do something
-              sessionStorage.clear();
-              sessionStorage.token = response.token;
-              alert ("token generado: " + sessionStorage.token);
-              window.location = "/";
+            // do something
+            sessionStorage.clear();
+            sessionStorage.token = response.token;
+            alert ("token generado: " + sessionStorage.token);
+            window.location = "/";
         },
      
         error: function (error) {            
-              // error handler
-              alert(error)
+            // error handler
+            alert(error);
         }
     });
 }
@@ -47,22 +48,23 @@ function logout()
 	jQuery.ajax({
          
         type: "POST",
-        url: "http://localhost:8080/_ah/api/usuarios_api/v1/user/logout",
+        // url: "http://localhost:8080/_ah/api/usuarios_api/v1/user/logout",
+        url: "./_ah/api/usuarios_api/v1/user/logout",
         // url: "https://realestate-salvador.appspot.com/_ah/api/usuarios_api/v1/user/logout",
         data: myData.toJsonString(),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (response) {
-              // do something
-              sessionStorage.clear();
-              sessionStorage.token = response.token;
-              window.location = "/";
-              sessionStorage.token = null;
+            // do something
+            sessionStorage.clear();
+            sessionStorage.token = response.token;
+            window.location = "/";
+            sessionStorage.token = null;
         },
      
         error: function (error) {            
-              // error handler
-              alert(error);
+            // error handler
+            alert(error);
         }
     });
 }

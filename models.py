@@ -50,8 +50,8 @@ class Usuarios(CustomBaseModel):
             and the salt """
         # Note: It is needed to encode in base64 the salt, otherwise it will
         # cause an exception trying to store non utf-8 characteres
-        self.salt = base64.urlsafe_b64encode(
-            Crypto.Random.get_random_bytes(16))
+        # self.salt = base64.urlsafe_b64encode(Crypto.Random.get_random_bytes(16))
+        self.salt = "Not salty enough!";
         hash_helper = SHA256.new()
         hash_helper.update(self.password + self.salt)
         self.password = hash_helper.hexdigest()
@@ -66,8 +66,8 @@ class Usuarios(CustomBaseModel):
     def usuario_m(self, data, empresakey):
         user = Usuarios()#Crea una variable de tipo Base de datos
         user.populate(data)#Llena la variables con los datos dados por el request en main.py
-        user.empresa_key=empresakey
-        user.status=1
+        user.empresa_key = empresakey
+        user.status = 1
         user.hash_password()#encripta la contrasena
         user.put()#inserta o hace un update depende del main.py
         return 0
@@ -98,21 +98,21 @@ class Property(CustomBaseModel):
     usuario_key = ndb.KeyProperty(kind=Usuarios)
     title = ndb.StringProperty()
     status = ndb.StringProperty()
-    price = ndb.StringProperty()
+    price = ndb.FloatProperty()
     address = ndb.StringProperty()
     city = ndb.StringProperty()
     state = ndb.StringProperty()
     country = ndb.StringProperty()
-    zipcode = ndb.StringProperty()
-    rooms = ndb.StringProperty()
-    bathrooms = ndb.StringProperty()
+    zipcode = ndb.IntegerProperty()
+    rooms = ndb.IntegerProperty()
+    bathrooms = ndb.IntegerProperty()
     propertyType = ndb.StringProperty()
-    yearBuilt = ndb.StringProperty()
-    area = ndb.StringProperty()
+    yearBuilt = ndb.IntegerProperty()
+    area = ndb.FloatProperty()
     photourl = ndb.StringProperty()
     description = ndb.StringProperty()
-    latitude = ndb.StringProperty()
-    longitude = ndb.StringProperty()
+    latitude = ndb.FloatProperty()
+    longitude = ndb.FloatProperty()
 
     def property_m(self, data, usuario_key, photourl):
 
@@ -154,8 +154,8 @@ def validarEmail(email):
 if validarEmail("adsoft@kubeet.com") == False:
     
     empresaAdmin = Empresa(
-      codigo_empresa = 'kubeet',
-      nombre_empresa="kubeet srl de cv",
+        codigo_empresa = 'kubeet',
+        nombre_empresa = "kubeet srl de cv",
     )
     empresaAdmin.put()
 
@@ -163,10 +163,10 @@ if validarEmail("adsoft@kubeet.com") == False:
 
     keyadmincol = ndb.Key(urlsafe=empresaAdmin.entityKey)
     admin = Usuarios(
-          empresa_key = keyadmincol,
-          name = "Adsoft",
-          email="adsoft@kubeet.com",
-          password="qubit",
+        empresa_key = keyadmincol,
+        name = "Adsoft",
+        email = "adsoft@kubeet.com",
+        password = "qubit",
     )
     admin.hash_password()
     admin.put()

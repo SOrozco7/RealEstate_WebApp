@@ -62,7 +62,7 @@ class LoginHandler(webapp2.RequestHandler):
 
     template_context = {}
     self.response.out.write(
-        self._render_template('login-register.html', template_context))
+        self._render_template('/login-register.html', template_context))
 
    def _render_template(self, template_name, context=None):
         if context is None:
@@ -77,7 +77,7 @@ class MainHandler(webapp2.RequestHandler):
 
         template_context = {}
         self.response.out.write(
-            self._render_template('index.html', template_context))
+            self._render_template('/index.html', template_context))
 
     def _render_template(self, template_name, context=None):
         if context is None:
@@ -92,7 +92,7 @@ class GetHome1Handler(webapp2.RequestHandler):
 
         template_context = {}
         self.response.out.write(
-            self._render_template('index.html', template_context))
+            self._render_template('/index.html', template_context))
 
 
     def _render_template(self, template_name, context=None):
@@ -108,7 +108,7 @@ class GetHome2Handler(webapp2.RequestHandler):
 
         template_context = {}
         self.response.out.write(
-            self._render_template('index-2.html', template_context))
+            self._render_template('/index-2.html', template_context))
 
 
     def _render_template(self, template_name, context=None):
@@ -124,7 +124,7 @@ class GetHome3Handler(webapp2.RequestHandler):
 
         template_context = {}
         self.response.out.write(
-            self._render_template('index-3.html', template_context))
+            self._render_template('/index-3.html', template_context))
 
 
     def _render_template(self, template_name, context=None):
@@ -140,7 +140,7 @@ class GetHome4Handler(webapp2.RequestHandler):
 
         template_context = {}
         self.response.out.write(
-            self._render_template('index-4.html', template_context))
+            self._render_template('/index-4.html', template_context))
 
 
     def _render_template(self, template_name, context=None):
@@ -156,7 +156,7 @@ class MyPropertiesHandler(webapp2.RequestHandler):
 
         template_context = {}
         self.response.out.write(
-            self._render_template('my-properties.html', template_context))
+            self._render_template('/my-properties.html', template_context))
 
 
     def _render_template(self, template_name, context=None):
@@ -172,7 +172,7 @@ class SubmitPropertyHandler(webapp2.RequestHandler):
 
         template_context = {}
         self.response.out.write(
-            self._render_template('submit-property.html', template_context))
+            self._render_template('/submit-property.html', template_context))
 
     def _render_template(self, template_name, context=None):
         if context is None:
@@ -187,7 +187,7 @@ class EditPropertyHandler(webapp2.RequestHandler):
 
         template_context = {}
         self.response.out.write(
-            self._render_template('edit-property.html', template_context))
+            self._render_template('/edit-property.html', template_context))
 
     def _render_template(self, template_name, context=None):
         if context is None:
@@ -228,7 +228,7 @@ class GetPropertyHandler(webapp2.RequestHandler):
 
         template_context = {}
         self.response.out.write(
-            self._render_template('single-property-page-1.html', template_context))
+            self._render_template('/single-property-page-1.html', template_context))
 
     def _render_template(self, template_name, context=None):
         if context is None:
@@ -243,7 +243,7 @@ class GetPropertyCopyHandler(webapp2.RequestHandler):
 
         template_context = {}
         self.response.out.write(
-            self._render_template('single-property-page-1-copy.html', template_context))
+            self._render_template('/single-property-page-1-copy.html', template_context))
 
     def _render_template(self, template_name, context=None):
         if context is None:
@@ -258,7 +258,7 @@ class ProfileHandler(webapp2.RequestHandler):
 
     template_context = {}
     self.response.out.write(
-      self._render_template('my-profile.html', template_context))
+      self._render_template('/my-profile.html', template_context))
 
 
    def _render_template(self, template_name, context=None):

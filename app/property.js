@@ -5,6 +5,7 @@ function PropertyObject(entityKey,
                         myAddress,
                         myCity,
                         myState,
+                        myCountry,
                         myZipCode,
                         myRooms,
                         myBathrooms,
@@ -23,6 +24,7 @@ function PropertyObject(entityKey,
     this.address = myAddress;
     this.city = myCity;
     this.state = myState;
+    this.country = myCountry;
     this.zipcode = myZipCode;
     this.rooms = myRooms;
     this.bathrooms = myBathrooms;
@@ -51,20 +53,25 @@ function addProperty()
         var myData = new PropertyObject(entityKey = "",
                                         title = $("#title").val(),
                                         status = $("#status").val(),
-                                        price = $("#price").val(),
+                                        price = Number($("#price").val()),
                                         address = $("#address").val(),
                                         city = $("#city").val(),
                                         state = $("#state").val(),
-                                        zipcode = $("#zipcode").val(),
-                                        rooms = $("#rooms").val(),
-                                        bathrooms = $("#bathrooms").val(),
+                                        country = $("#country").val(),
+                                        zipcode = Number($("#zipcode").val()),
+                                        rooms = Number($("#rooms").val()),
+                                        bathrooms = Number($("#bathrooms").val()),
                                         propertyType = $("#propertyType").val(),
-                                        yearBuilt = $("#yearBuilt").val(),
-                                        area = $("#area").val(),
+                                        yearBuilt = Number($("#yearBuilt").val()),
+                                        area = Number($("#area").val()),
                                         photourl = sessionStorage.urlImage,
                                         description = $("#description").val(),
                                         latitude = null,
                                         longitude = null);
+
+        alert(myData.toJsonString());
+        
+        alert("myData.token = " + myData.token);
 
         var address = $("#address").val();
         var city = $("#city").val();
@@ -74,20 +81,22 @@ function addProperty()
         jQuery.ajax({
 
             type: "POST",
-            url: "http://localhost:8080/_ah/api/property_api/v1/property/insert",
+            // url: "http://localhost:8080/_ah/api/property_api/v1/property/insert",
+            url: "./_ah/api/property_api/v1/property/insert",
             // url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/insert", //Use this when the website is live
             data: myData.toJsonString(),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
-                    // do something
-                    //alert (response.code + " " + response.message);
-                    getPropertyCoords(address, city, state, zipcode);
+                // do something
+                //alert (response.code + " " + response.message);
+                getPropertyCoords(address, city, state, zipcode);
+                window.location = "/myProperties";
             },
         
             error: function (error) {            
-                    // error handler
-                    alert("error :" + error.message);
+                // error handler
+                alert("error :" + error.message);
             }
         });
     }
@@ -108,7 +117,8 @@ function loadPropertyInformation()
 
         jQuery.ajax({
             type: "POST",
-            url: "http://localhost:8080/_ah/api/property_api/v1/property/get",
+            // url: "http://localhost:8080/_ah/api/property_api/v1/property/get",
+            url: "./_ah/api/property_api/v1/property/get",
             // url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/get", //Use this when the website is live
             data: myProperty.toJsonString(),
             contentType: "application/json; charset=utf-8",
@@ -127,6 +137,7 @@ function loadPropertyInformation()
                         $("#address").val(property.address);
                         $("#city").val(property.city);
                         $("#state").val(property.state);
+                        $("#country").val(property.country);
                         $("#zipcode").val(property.zipcode);
                         $("#rooms").val(property.rooms);
                         $("#bathrooms").val(property.bathrooms);
@@ -169,6 +180,7 @@ function editProperty()
                                         address = $("#address").val(),
                                         city = $("#city").val(),
                                         state = $("#state").val(),
+                                        country = $("#country").val(),
                                         zipcode = $("#zipcode").val(),
                                         rooms = $("#rooms").val(),
                                         bathrooms = $("#bathrooms").val(),
@@ -190,7 +202,8 @@ function editProperty()
         jQuery.ajax({
 
             type: "POST",
-            url: "http://localhost:8080/_ah/api/property_api/v1/property/update",
+            // url: "http://localhost:8080/_ah/api/property_api/v1/property/update",
+            url: "./_ah/api/property_api/v1/property/update",
             // url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/update", //Use this when the website is live
             data: myData.toJsonString(),
             contentType: "application/json; charset=utf-8",
@@ -225,7 +238,8 @@ function deleteProperty(propertyKey)
         jQuery.ajax({
 
             type: "POST",
-            url: "http://localhost:8080/_ah/api/property_api/v1/property/delete",
+            // url: "http://localhost:8080/_ah/api/property_api/v1/property/delete",
+            url: "./_ah/api/property_api/v1/property/delete", 
             // url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/delete", //Use this when the website is live
             data: myProperty.toJsonString(),
             contentType: "application/json; charset=utf-8",
@@ -258,7 +272,8 @@ function getPropertyData()
 
         jQuery.ajax({
             type: "POST",
-            url: "http://localhost:8080/_ah/api/property_api/v1/property/get",
+            // url: "http://localhost:8080/_ah/api/property_api/v1/property/get",
+            url: "./_ah/api/property_api/v1/property/get",
             // url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/get", //Use this when the website is live
             data: myProperty.toJsonString(),
             contentType: "application/json; charset=utf-8",
@@ -276,6 +291,8 @@ function getPropertyData()
                         getPropertyPictures(property);
                         getPropertyMap(property);
                         document.getElementById("yearBuilt").innerHTML += "Year Built: <span>" + property.yearBuilt + "</span>";
+                        document.getElementById("description").innerHTML += "<p>" + property.description + "</p>";
+                        var descriptionStr = "<p>" + property.description + "</p>";
                     });
                 }
                 catch(error){
@@ -310,7 +327,7 @@ function getPropertyTitleBar(property){
     location += "<span>";
     location += "<a href='#location' class='listing-address'>";
     location += "<i class='fa fa-map-marker'></i>";
-    location += property.address + ", " + property.state;
+    location += property.address + ", " + property.state + ", " + property.country;
     location += "</a>";
     location += "</span>";
 
@@ -398,7 +415,8 @@ function getMyProperties()
 
         jQuery.ajax({
             type: "POST",
-            url: "http://localhost:8080/_ah/api/property_api/v1/property/list",
+            // url: "http://localhost:8080/_ah/api/property_api/v1/property/list",
+            url: "./_ah/api/property_api/v1/property/list",
             // url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/list",
             data: myData.toJsonString(),
             contentType: "application/json; charset=utf-8",
@@ -410,15 +428,22 @@ function getMyProperties()
                 // alert(JSON.stringify(response));
                 totalProperties = response.data;
 
-                var myTableProperties = "<table class='manage-table responsive-table'>" +
-                                        "<tr>" +
-                                            "<th><i class='fa fa-file-text'></i> Property</th>" +
-                                            // "<th class='expire-date'><i class='fa fa-calendar'></i> Expiration Date</th>" +
-                                            "<th></th>" +
-                                        "</tr>";
+                var myTableProperties = "";
 
-                try{
-                                    
+                if(totalProperties == null){
+
+                    myTableProperties += "<p> There are no registered properties. </p>";
+                }
+
+                else{
+
+                    myTableProperties += "<table class='manage-table responsive-table'>" +
+                    "<tr>" +
+                        "<th><i class='fa fa-file-text'></i> Property</th>" +
+                        // "<th class='expire-date'><i class='fa fa-calendar'></i> Expiration Date</th>" +
+                        "<th></th>" +
+                    "</tr>";
+
                     totalProperties.forEach(function(property){
 
                         myTableProperties +=    "<tr>" +
@@ -445,14 +470,10 @@ function getMyProperties()
                                                     "</td>" +
                                                 "</tr>";
                     });
-                }
-                catch(error){
 
-                    alert(error);
+                    myTableProperties += "</table>" +
+                                    "<a href='/submitProperty' class='margin-top-40 button'>Submit New Property</a>";
                 }
-
-                myTableProperties += "</table>" +
-                                     "<a href='/submitProperty' class='margin-top-40 button'>Submit New Property</a>";
 
                 $("#listProperties").append(myTableProperties);
             },
@@ -515,7 +536,7 @@ function getURLVariables() {
      
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
          
-         vars[key] = value;
+        vars[key] = value;
     });
  
     return vars;
@@ -591,7 +612,8 @@ function assignPropertyCoords(propertyLatitude, propertyLongitude){
         jQuery.ajax({
 
             type: "POST",
-            url: "http://localhost:8080/_ah/api/property_api/v1/property/update",
+            // url: "http://localhost:8080/_ah/api/property_api/v1/property/update",
+            url: "./_ah/api/property_api/v1/property/update",
             // url: "https://realestate-salvador.appspot.com/_ah/api/property_api/v1/property/update", //Use this when the website is live
             data: myData.toJsonString(),
             contentType: "application/json; charset=utf-8",

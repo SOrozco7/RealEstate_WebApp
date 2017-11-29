@@ -32,7 +32,8 @@ function getUserName()
 
         jQuery.ajax({
             type: "POST",
-            url: "http://localhost:8080/_ah/api/usuarios_api/v1/user/getCurrentUser",
+            // url: "http://localhost:8080/_ah/api/usuarios_api/v1/user/getCurrentUser",
+            url: "./_ah/api/usuarios_api/v1/user/getCurrentUser",
             // url: "https://realestate-salvador.appspot.com/_ah/api/usuarios_api/v1/user/getCurrentUser",
             data: myData.toJsonString(),
             contentType: "application/json; charset=utf-8",
