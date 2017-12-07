@@ -393,7 +393,7 @@ function getPropertyMap(property){
     $("#propertyMap").attr("data-latitude", property.latitude);
     $("#propertyMap").attr("data-longitude", property.longitude);
 
-    var googleMapsKey = "AIzaSyDQ-EJE-bBjDQKTJdBlQyuQwNC_CUsIbFM";
+    var googleMapsKey = "AIzaSyBEqbKDm2vEPscnE8y9k28MEh85I8Dh4BE";
     var urlGoogleMaps = "https://www.google.com/maps/embed/v1/place?key=" 
                         + googleMapsKey 
                         + "&q=" + property.latitude + "," + property.longitude;
@@ -546,12 +546,14 @@ function getPropertyCoords(address, city, state, zipcode){
 
     var totalAddress = address + "+" + city + "+" + state + "+" + zipcode;
     alert("getPropertyCoords !!!");
+
+    var googleMapsKey = "AIzaSyBEqbKDm2vEPscnE8y9k28MEh85I8Dh4BE";
     
     jQuery.support.cors = true;
     try
     {
         $.ajax({
-            url: "https://maps.google.com/maps/api/geocode/json?address=" + totalAddress + "&key=" + "AIzaSyDQ-EJE-bBjDQKTJdBlQyuQwNC_CUsIbFM",
+            url: "https://maps.google.com/maps/api/geocode/json?address=" + totalAddress + "&key=" + googleMapsKey,
             dataType: 'text',
             cache: false,
             contentType: false,

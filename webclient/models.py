@@ -20,9 +20,10 @@ class CustomBaseModel(EndpointsModel):
 #### Empresa
 ###########################
 class Empresa(CustomBaseModel):
-    _message_fields_schema = ('entityKey', 'codigo_empresa', 'nombre_empresa')
+    _message_fields_schema = ('entityKey', 'codigo_empresa', 'nombre_empresa', 'photourl')
     codigo_empresa = ndb.StringProperty()
     nombre_empresa = ndb.StringProperty()
+    photourl = ndb.StringProperty()
     
        ###Empresa####
     def empresa_m(self, data):
@@ -156,6 +157,7 @@ if validarEmail("adsoft@kubeet.com") == False:
     empresaAdmin = Empresa(
         codigo_empresa = 'kubeet',
         nombre_empresa = "kubeet srl de cv",
+        photourl = "https://webmedia.westgateresorts.com/prometheus/getImage?id=54207&width=2048&height=1026"
     )
     empresaAdmin.put()
 
@@ -177,6 +179,7 @@ if validarEmail("salvador@orozco.in") == False:
     empresaOther = Empresa(
         codigo_empresa = 'orvis',
         nombre_empresa="orvis srl de cv",
+        photourl = "https://i.ytimg.com/vi/UNIwvVxtsEk/maxresdefault.jpg"
     )
     empresaOther.put()
 

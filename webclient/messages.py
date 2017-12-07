@@ -60,12 +60,14 @@ class EmpresaInput(messages.Message):
     token = messages.StringField(1, required=True) 
     codigo_empresa = messages.StringField(2)
     nombre_empresa = messages.StringField(3)
+    photourl = messages.StringField(4)
 
 class EmpresaUpdate(messages.Message):
     token = messages.StringField(1, required=True)
     entityKey = messages.StringField(2, required=True)
     codigo_empresa = messages.StringField(3)
     nombre_empresa = messages.StringField(4)
+    photourl = messages.StringField(5)
 
 #regresa una lista para la base de datos Empresa
 class EmpresaList(messages.Message):
